@@ -20,7 +20,7 @@ func init() {
 var serveCmd = &cobra.Command{
 	Use:   "serve",
 	Short: "Serve the goat",
-	Long:  `Start auth api and serve it on a http server`,
+	Long:  `Start goat and serve it on a http server`,
 	Run:   serve,
 }
 

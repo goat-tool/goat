@@ -12,9 +12,8 @@ var (
 
 	rootCmd = &cobra.Command{
 		Use:   "goat",
-		Short: "A api providing JWT based auth written in go.",
-		Long: `goat is a auth provider empowering other applications.
-It's providing JWT and OAUTH based authentication and authorization.
+		Short: "Goat is a go api template",
+		Long: `Goat is a go api template empowering new applications.
 This application is under heavy development.`,
 	}
 )
