@@ -33,8 +33,8 @@ func (a *Api) Setup(router *mux.Router) {
 
 	// // User
 	// v1.HandleFunc("/users", a.User.CreateUser).Methods(http.MethodPost)
-	//v1.HandleFunc("/users", a.User.GetAllUsers).Methods(http.MethodGet)
-	// v1.HandleFunc("/users/{id}", a.User.GetUserById).Methods(http.MethodGet)
+	v1.HandleFunc("/users", a.User.GetAllUsers).Methods(http.MethodGet)
+	v1.HandleFunc("/users/{id}", a.User.GetUserById).Methods(http.MethodGet)
 	// v1.HandleFunc("/users/{id}", a.User.UpdateUser).Methods(http.MethodPut)
 	// v1.HandleFunc("/users/{id}", a.User.DeleteUser).Methods(http.MethodDelete)
 }

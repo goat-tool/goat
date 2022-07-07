@@ -1,14 +1,18 @@
 package api
 
-// "encoding/json"
-// ut "github.com/go-playground/universal-translator"
-// "net/http"
+import (
+	// "encoding/json"
+	// ut "github.com/go-playground/universal-translator"
+	"fmt"
+	"net/http"
 
-// "goat/log"
-import "goat/services/user"
+	// "goat/log"
+	"goat/services/user"
 
-// "github.com/go-playground/validator/v10"
-// "github.com/gorilla/mux"
+	"github.com/gorilla/mux"
+	// "github.com/go-playground/validator/v10"
+	// "github.com/gorilla/mux"
+)
 
 type UserEndpoint struct {
 	// logger     log.Logger
@@ -58,6 +62,21 @@ func NewUserEndpoint(service *user.Service) *UserEndpoint {
 // 	respond(w, e.logger, http.StatusCreated, "user created successfully", createdUser)
 // }
 
+func (e *UserEndpoint) GetAllUsers(w http.ResponseWriter, _ *http.Request) {
+	users, err := e.service.GetAll()
+	if err != nil {
+		switch err {
+		case user.ErrNotFound:
+			respond(w, http.StatusNotFound, err.Error(), nil)
+		default:
+			respond(w, http.StatusInternalServerError, err.Error(), nil)
+		}
+		return
+	}
+
+	respond(w, http.StatusOK, "load all users successfully", users)
+}
+
 // func (e *UserEndpoint) GetAllUsers(w http.ResponseWriter, _ *http.Request) {
 // 	users, err := e.service.GetAll()
 // 	if err != nil {
@@ -72,6 +91,16 @@ func NewUserEndpoint(service *user.Service) *UserEndpoint {
 
 // 	respond(w, e.logger, http.StatusOK, "load all users successfully", users)
 // }
+
+func (e *UserEndpoint) GetUserById(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+
+	fmt.Println("TODO: services/user/user.go GetUserById()")
+
+	foundUser := id
+
+	respond(w, http.StatusOK, "successfully found user", foundUser)
+}
 
 // func (e *UserEndpoint) GetUserById(w http.ResponseWriter, r *http.Request) {
 // 	id := mux.Vars(r)["id"]
