@@ -67,9 +67,9 @@ func New(cfgFile string, isDebug bool, logFile string) (*Core, error) {
 	// c.setupTranslator()
 	// c.setupValidator()
 	// c.setupDatabase()
-	// c.setupServices()
-	// c.setupApi()
-	// c.setupRouter()
+	c.setupServices()
+	c.setupApi()
+	c.setupRouter()
 
 	//c.router = mux.NewRouter()
 
