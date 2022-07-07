@@ -1,8 +1,17 @@
 package core
 
+import "goat/api"
+
 func (c *Core) setupApi() {
 
 	c.Log.Debug().Msg("Todo: setupApi()")
+
+	c.api = &api.Api{
+		Health: api.NewHealthEndpoint(c.services.Health),
+		User:   api.NewUserEndpoint(c.services.User),
+	}
+
+	c.api.Setup(c.router)
 
 	// c.Api = &api.Api{
 	// 	Health: api.NewHealthEndpoint(c.Services.Health, c.Log),

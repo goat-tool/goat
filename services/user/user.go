@@ -2,6 +2,31 @@ package user
 
 // import "go.mongodb.org/mongo-driver/bson/primitive"
 
+type User struct {
+	ID        int
+	Username  string
+	Email     string
+	FirstName string
+	LastName  string
+	Hash      string
+	CreatedAt int64
+	UpdatedAt int64
+}
+
+// type UserInput struct {
+// 	Username  string `json:"username" validate:"required,min=2,max=50"`
+// 	Email     string `json:"email" validate:"required,email"`
+// 	FirstName string `json:"first_name" validate:"alphanumunicode"`
+// 	LastName  string `json:"last_name" validate:"alphanumunicode"`
+// 	Password  string `json:"password" validate:"required,password"`
+// }
+
+// type PasswordInput struct {
+// 	ActivePassword string `json:"active_password" validate:"required,password"`
+// 	NewPassword    string `json:"new_password" validate:"required,password"`
+// 	RepeatPassword string `json:"repeat_password" validate:"required,password"`
+// }
+
 // type User struct {
 // 	ID        primitive.ObjectID `json:"id" bson:"_id,omitempty"`
 // 	Username  string             `json:"username" bson:"username"`

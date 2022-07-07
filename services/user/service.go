@@ -12,6 +12,13 @@ type Service struct {
 	// Store  *Store
 }
 
+func NewService() *Service {
+	return &Service{
+		// logger: logger.WithPrefix("service.user"),
+		// Store:  store,
+	}
+}
+
 // func NewService(logger log.Logger, store *Store) *Service {
 // 	return &Service{
 // 		logger: logger.WithPrefix("service.user"),
@@ -46,9 +53,10 @@ type Service struct {
 // 	return createdUser, nil
 // }
 
-// func (s *Service) GetAll() ([]*User, error) {
-// 	return s.Store.GetAll()
-// }
+func (s *Service) GetAll() ([]*User, error) {
+
+	return nil, nil //s.Store.GetAll()
+}
 
 // func (s *Service) Update(id string, input UserInput) (*User, error) {
 // 	u, err := s.Store.GetByID(id)

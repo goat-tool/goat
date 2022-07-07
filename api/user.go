@@ -5,7 +5,7 @@ package api
 // "net/http"
 
 // "goat/log"
-// "goat/services/user"
+import "goat/services/user"
 
 // "github.com/go-playground/validator/v10"
 // "github.com/gorilla/mux"
@@ -14,7 +14,13 @@ type UserEndpoint struct {
 	// logger     log.Logger
 	// translator *ut.UniversalTranslator
 	// validate   *validator.Validate
-	// service    *user.Service
+	service *user.Service
+}
+
+func NewUserEndpoint(service *user.Service) *UserEndpoint {
+	return &UserEndpoint{
+		service: service,
+	}
 }
 
 // func NewUserEndpoint(logger log.Logger, translator *ut.UniversalTranslator, validate *validator.Validate, service *user.Service) *UserEndpoint {

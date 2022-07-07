@@ -4,11 +4,17 @@ import (
 	"goat/conf"
 	"goat/log"
 
+	"goat/api"
+	"goat/services"
+	"goat/services/health"
+
 	"context"
 	"fmt"
 	"net/http"
 	"sync"
 	"time"
+
+	"github.com/gorilla/mux"
 )
 
 type Core struct {
@@ -22,19 +28,19 @@ type Core struct {
 	httpServer *http.Server
 
 	// router is the HTTP mux
-	//router *mux.Router
+	router *mux.Router
 
 	// handler is the http handler from the mux Router for the http server
 	handler http.Handler
 
 	// api holds the api handler for the rest api
-	//api *api.Api
+	api *api.Api
 
 	// services holds the internal Services for global usage
-	//services *services.Services
+	services *services.Services
 
 	// state is set to the current state of the application
-	//state health.State
+	state health.State
 
 	// wg holds registered processes for graceful shutdown
 	wg *sync.WaitGroup
@@ -55,6 +61,9 @@ type globalContext struct {
 func New(cfgFile string, isDebug bool, logFile string) (*Core, error) {
 	c := &Core{}
 
+	c.state = health.StateStarting
+	c.router = mux.NewRouter()
+
 	ctx, cancel := context.WithCancel(context.Background())
 	c.wg = &sync.WaitGroup{}
 	c.context = globalContext{
@@ -71,10 +80,8 @@ func New(cfgFile string, isDebug bool, logFile string) (*Core, error) {
 	c.setupApi()
 	c.setupRouter()
 
-	//c.router = mux.NewRouter()
-
 	c.Log.Info().Msg("Init core done")
-
+	c.state = health.StateRunning
 	return c, nil
 }
 
