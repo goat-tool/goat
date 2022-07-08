@@ -13,7 +13,7 @@ func (c *Core) setupConf(cfgFile string) {
 
 	conf, err := conf.New(cfgFile)
 	if err != nil {
-		fmt.Println("InitConfig error")
+		fmt.Println("Setup config error")
 		os.Exit(2)
 	} else {
 		c.conf = conf

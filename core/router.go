@@ -1,44 +1,29 @@
 package core
 
 import (
-	"fmt"
 	"net/http"
 )
 
 func (c *Core) setupRouter() {
 
-	c.Log.Debug().Msg("Todo: setupRouter()")
+	c.Log.Info().Msg("Setup router")
 
-	// logger := c.Log.WithPrefix("core.router")
-	middlewares := setupMiddleware(c.router)
+	middlewares := setupMiddleware(c.router, c)
 
 	// // register middlewares
-	middlewares = loggingMiddleware(middlewares)
+	middlewares = loggingMiddleware(middlewares, c)
 
 	c.handler = middlewares
 }
 
-func setupMiddleware(h http.Handler) http.Handler {
-	// logger.Debugln("setting up router middlewares")
+func setupMiddleware(h http.Handler, c *Core) http.Handler {
+	c.Log.Info().Msg("Setup router middlewares")
 	return h
 }
 
-func loggingMiddleware(h http.Handler) http.Handler {
+func loggingMiddleware(h http.Handler, c *Core) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		// logger.WithFields(log.Fields{"method": r.Method, "addr": r.RemoteAddr}).Debugln("request:", r.RequestURI)
-		fmt.Println(r.RequestURI)
+		c.Log.Debug().Str("method", r.Method).Str("addr", r.RemoteAddr).Str("request", r.RequestURI).Msg("Router")
 		h.ServeHTTP(w, r)
 	})
 }
-
-// func setupMiddleware(h http.Handler, logger log.Logger) http.Handler {
-// 	logger.Debugln("setting up router middlewares")
-// 	return h
-// }
-
-// func loggingMiddleware(h http.Handler, logger log.Logger) http.Handler {
-// 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-// 		logger.WithFields(log.Fields{"method": r.Method, "addr": r.RemoteAddr}).Debugln("request:", r.RequestURI)
-// 		h.ServeHTTP(w, r)
-// 	})
-// }

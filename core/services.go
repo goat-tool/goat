@@ -8,7 +8,7 @@ import (
 
 func (c *Core) setupServices() {
 
-	c.Log.Debug().Msg("Todo: setupServices()")
+	c.Log.Info().Msg("Setup services")
 
 	healthService := health.NewService(&c.state)
 	userService := user.NewService()

@@ -1,7 +1,5 @@
 package user
 
-import "fmt"
-
 // "time"
 
 // "goat/log"
@@ -56,7 +54,7 @@ func NewService() *Service {
 // }
 
 func (s *Service) GetAll() ([]*User, error) {
-	fmt.Println("TODO: services/user/service.go GetAll")
+	//	fmt.Println("TODO: services/user/service.go GetAll")
 	return nil, nil //s.Store.GetAll()
 }
 

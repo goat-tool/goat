@@ -3,7 +3,7 @@ package api
 import (
 	// "encoding/json"
 	// ut "github.com/go-playground/universal-translator"
-	"fmt"
+
 	"net/http"
 
 	// "goat/log"
@@ -95,7 +95,7 @@ func (e *UserEndpoint) GetAllUsers(w http.ResponseWriter, _ *http.Request) {
 func (e *UserEndpoint) GetUserById(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 
-	fmt.Println("TODO: services/user/user.go GetUserById()")
+	//fmt.Println("TODO: services/user/user.go GetUserById()")
 
 	foundUser := id
 

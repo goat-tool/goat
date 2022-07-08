@@ -4,7 +4,7 @@ import "goat/api"
 
 func (c *Core) setupApi() {
 
-	c.Log.Debug().Msg("Todo: setupApi()")
+	c.Log.Info().Msg("Setup api")
 
 	c.api = &api.Api{
 		Health: api.NewHealthEndpoint(c.services.Health),

@@ -1,7 +1,6 @@
 package api
 
 import (
-	"fmt"
 	"goat/services/health"
 
 	// "goat/log"
@@ -22,8 +21,6 @@ func NewHealthEndpoint(service *health.Service) *HealthEndpoint {
 func (e *HealthEndpoint) GetHealth(w http.ResponseWriter, _ *http.Request) {
 	var status int
 	healthResponse := e.service.GetHealth()
-
-	fmt.Println("test GetHealth")
 
 	switch healthResponse.State {
 	case health.StateStarting:

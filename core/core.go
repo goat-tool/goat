@@ -9,7 +9,6 @@ import (
 	"goat/services/health"
 
 	"context"
-	"fmt"
 	"net/http"
 	"sync"
 	"time"
@@ -18,36 +17,18 @@ import (
 )
 
 type Core struct {
-	// log holds a pointer to the logger
-	Log *log.Logger
-
-	// config holds a pointer to the loaded configuration
-	conf *conf.Config
-
-	// server holds a pointer to the http server
+	Log        *log.Logger
+	conf       *conf.Config
 	httpServer *http.Server
-
-	// router is the HTTP mux
-	router *mux.Router
-
-	// handler is the http handler from the mux Router for the http server
-	handler http.Handler
-
-	// api holds the api handler for the rest api
-	api *api.Api
-
-	// services holds the internal Services for global usage
-	services *services.Services
-
-	// state is set to the current state of the application
-	state health.State
-
+	router     *mux.Router
+	handler    http.Handler
+	api        *api.Api
+	services   *services.Services
+	state      health.State
 	// wg holds registered processes for graceful shutdown
 	wg *sync.WaitGroup
-
 	// context holds global context
 	context globalContext
-
 	// shutdownFuncs runs at shutdown
 	shutdownFuncs []func() error
 }
@@ -80,7 +61,7 @@ func New(cfgFile string, isDebug bool, logFile string) (*Core, error) {
 	c.setupApi()
 	c.setupRouter()
 
-	c.Log.Info().Msg("Init core done")
+	c.Log.Info().Msg("New core done")
 	c.state = health.StateRunning
 	return c, nil
 }
@@ -88,7 +69,7 @@ func New(cfgFile string, isDebug bool, logFile string) (*Core, error) {
 func (c *Core) StartServer() {
 
 	var err error
-	c.Log.Debug().Msg("Starting server")
+	c.Log.Info().Msg("Starting server")
 
 	c.httpServer = &http.Server{
 		Addr:         c.conf.Server.URL(),
@@ -109,22 +90,18 @@ func (c *Core) StartServer() {
 	c.Log.Info().Str("URL", c.httpServer.Addr).Msg("Server listen")
 
 	for {
-		// if c.state == health.StateStopping || c.state == health.StateStopped {
-		// 	logger.Tracef("skipping restarts of server because app is not in running state: state is %d", c.state)
-		// 	return
-		// }
+		if c.state == health.StateStopping || c.state == health.StateStopped {
+			c.Log.Debug().Msgf("Skipping restarts of server because app is not in running state. State is:", c.state)
+			return
+		}
 		if err = listen(); err != nil {
 			time.Sleep(2 * time.Second)
-			fmt.Println("restarting")
+			c.Log.Error().Err(err).Msgf("Error on", c.httpServer.Addr)
+			c.Log.Debug().Msgf("Restarting server", c.httpServer.Addr)
 			continue
 		}
 		return
 	}
-
-	// if err = listen(); err != nil {
-	// 	c.log.Error().Err(err).Msgf("Error on: ", c.httpServer.Addr)
-	// }
-
 }
 
 func (c *Core) Shutdown(ctx context.Context) error {
@@ -133,14 +110,6 @@ func (c *Core) Shutdown(ctx context.Context) error {
 		//fmt.Println("defer...........................")
 	}()
 
-	// if c.httpServer != nil {
-	// 	if err := c.httpServer.Shutdown(ctx); err != nil {
-	// 		c.Log.Error().Msgf("server shutdown error", err)
-	// 	} else {
-	// 		c.Log.Debug().Msg("http server stopped")
-	// 	}
-	// }
-
 	c.context.cancel()
 	done := make(chan struct{})
 	go func() {
@@ -148,6 +117,7 @@ func (c *Core) Shutdown(ctx context.Context) error {
 		close(done)
 	}()
 
+	// loop tru shutdownfuncs
 	for _, fn := range c.shutdownFuncs {
 		funcErr := fn()
 		if funcErr != nil {
