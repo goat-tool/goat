@@ -1,4 +1,4 @@
 .vscode/
-config.yaml
+#config.yaml
 *.log
 tmp/

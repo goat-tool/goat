@@ -9,7 +9,7 @@ bin = "tmp/"
 
 # Customize binary.
 # This is how you start to run your application. Since my application will works like CLI, so to run it, like to make a CLI call.
-full_bin = "./tmp/goat serve -d"
+full_bin = "./tmp/goat serve"
 # This log file places in your tmp_dir.
 log = "air_errors.log"
 # Watch these filename extensions.
