@@ -2,15 +2,20 @@
 
 goat is a go api template :wink:
 
-## Run
+## run with docker
+
 ```bash
-cd goat
-go run goat serve --debug
+docker build -t goat .
+docker run -p 8080:8080 goat
 ```
 
-## Build and install and run
+## run with compose
+
 ```bash
-go build -o bin/goat
-sudo ln bin/goat /usr/local/bin/goat
-goat serve --debug
+docker-compose up -d
+```
+show logs:
+```bash
+docker-compose logs goat
+docker-compose logs postgres
 ```

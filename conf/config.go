@@ -36,16 +36,15 @@ type databaseConfig struct {
 }
 
 func New(cfgFile string) (*Config, error) {
-	c := &Config{}
-
 	home, err := os.UserHomeDir()
 	cobra.CheckErr(err)
 
-	if cfgFile == "" {
-		cfgFile = home + "/.goat/config.yaml"
+	viper.SetConfigType("yaml")
+	viper.SetConfigName("config")
+	viper.AddConfigPath(".")
+	viper.AddConfigPath("/etc/goat/")
+	viper.AddConfigPath(home + "/.goat/")
 
-	}
-	viper.SetConfigFile(cfgFile)
 	viper.AutomaticEnv()
 
 	if err := viper.ReadInConfig(); err != nil {
@@ -60,7 +59,7 @@ func New(cfgFile string) (*Config, error) {
 			viper.WriteConfig()
 		}
 	}
-	c = Load()
+	c := Load()
 
 	return c, nil
 }
