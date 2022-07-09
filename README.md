@@ -2,6 +2,8 @@
 
 goat is a go api template :wink:
 
+It's a container with the api and a container with a postgresql database
+
 ## run with docker
 
 ```bash
@@ -12,12 +14,12 @@ docker run -p 8080:8080 goat
 ## run with compose
 
 ```bash
-docker-compose up -d
+docker-compose up -d --build
 ```
 show logs:
 ```bash
-docker-compose logs goat
-docker-compose logs postgres
+docker-compose logs -f goat
+docker-compose logs -f postgres
 ```
 
 ## run compose in dev mode
