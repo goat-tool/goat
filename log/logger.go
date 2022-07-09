@@ -16,7 +16,11 @@ type Logger struct {
 }
 
 func New(isDebug bool, logFile string) (*Logger, error) {
-	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
+
+	//Set TimeZone
+	os.Setenv("TZ", "Europe/Zurich")
+
+	//zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	logLevel := zerolog.InfoLevel
 	/*
 		if logFile == "" {
@@ -38,7 +42,7 @@ func New(isDebug bool, logFile string) (*Logger, error) {
 		fmt.Printf("error opening logfile: %v", err)
 	}
 
-	multiOut := zerolog.MultiLevelWriter(f, zerolog.ConsoleWriter{Out: os.Stdout, TimeFormat: time.RFC822})
+	multiOut := zerolog.MultiLevelWriter(f, zerolog.ConsoleWriter{Out: os.Stdout, TimeFormat: time.RFC822Z})
 
 	logger := zerolog.New(multiOut).With().Caller().Timestamp().Logger()
 	//Pretty
