@@ -6,6 +6,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/rs/zerolog"
 )
@@ -37,7 +38,7 @@ func New(isDebug bool, logFile string) (*Logger, error) {
 		fmt.Printf("error opening logfile: %v", err)
 	}
 
-	multiOut := zerolog.MultiLevelWriter(f, zerolog.ConsoleWriter{Out: os.Stdout})
+	multiOut := zerolog.MultiLevelWriter(f, zerolog.ConsoleWriter{Out: os.Stdout, TimeFormat: time.RFC822})
 
 	logger := zerolog.New(multiOut).With().Caller().Timestamp().Logger()
 	//Pretty
