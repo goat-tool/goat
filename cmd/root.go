@@ -26,7 +26,7 @@ func Execute() error {
 func init() {
 	//cobra.OnInitialize(initConfig)
 
-	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "Config file (default is $HOME/.goat/config.yaml)")
+	rootCmd.PersistentFlags().StringVarP(&cfgFile, "config", "c", "", "Config file (default is /etc/goat/config.yaml)")
 	rootCmd.PersistentFlags().BoolVarP(&isDebug, "debug", "d", false, "Set log level to debug")
-	rootCmd.PersistentFlags().StringVarP(&logFile, "log", "l", "", "Set log file (default is $HOME/.goat/goat.log)")
+	rootCmd.PersistentFlags().StringVarP(&logFile, "log", "l", "", "Set log file (default is /var/log/goat/goat.log)")
 }

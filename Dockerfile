@@ -13,6 +13,8 @@ FROM alpine:3.14
 
 ENV APP_NAME goat
 
+RUN mkdir /app
+
 COPY --from=build /app/$APP_NAME /usr/local/bin/$APP_NAME
 
 CMD $APP_NAME serve

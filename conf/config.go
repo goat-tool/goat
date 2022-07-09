@@ -22,7 +22,6 @@ type serverConfig struct {
 
 type logConfig struct {
 	Debug bool
-	Path  string
 	File  string
 }
 
@@ -41,8 +40,9 @@ func New(cfgFile string) (*Config, error) {
 
 	viper.SetConfigType("yaml")
 	viper.SetConfigName("config")
-	viper.AddConfigPath(".")
 	viper.AddConfigPath("/etc/goat/")
+	viper.AddConfigPath(".")
+	viper.AddConfigPath("/app/")
 	viper.AddConfigPath(home + "/.goat/")
 
 	viper.AutomaticEnv()
@@ -79,7 +79,6 @@ func Load() *Config {
 		},
 		Log: logConfig{
 			Debug: viper.GetBool("log.debug"),
-			Path:  viper.GetString("log.path"),
 			File:  viper.GetString("log.file"),
 		},
 		Database: databaseConfig{

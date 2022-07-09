@@ -19,15 +19,12 @@ func (c *Core) setupDatabase() {
 	c.Log.Info().Msg("setting up database")
 
 	// convert string to integer
-
-	number, err := strconv.Atoi(c.conf.Database.Port)
-
-	fmt.Println("number:", number)
+	portInt, err := strconv.Atoi(c.conf.Database.Port)
 	if err != nil {
 		fmt.Println("error:", err)
 	}
 
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.conf.Database.Host, number, c.conf.Database.Username, c.conf.Database.Password, c.conf.Database.Name)
+	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.conf.Database.Host, portInt, c.conf.Database.Username, c.conf.Database.Password, c.conf.Database.Name)
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
 		fmt.Println("error connecting!")
@@ -38,12 +35,10 @@ func (c *Core) setupDatabase() {
 
 	err = db.Ping()
 	if err != nil {
-		fmt.Println("error pinging!")
 		c.Log.Error().Err(err).Msg("error pinging db")
+	} else {
+		c.Log.Info().Msg("Successfully connected!")
 	}
-
-	fmt.Println("Successfully connected!")
-
 	// client, err := mongo.NewClient(options.Client().ApplyURI(c.Config.Database.URI()))
 	// if err != nil {
 	// 	logger.Fatalf("failed to create database client: %v", err)

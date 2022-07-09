@@ -19,3 +19,11 @@ show logs:
 docker-compose logs goat
 docker-compose logs postgres
 ```
+
+## run compose in dev mode
+
+> in dev mode the air package is used for hot reload
+
+```bash
+docker-compose -f docker-compose.dev.yml up --build
+```

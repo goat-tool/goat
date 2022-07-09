@@ -12,8 +12,8 @@ services:
       - 8080:8080
     depends_on:
       - postgres
-    #volumes:
-    #  - ./config.yaml:/etc/goat/config.yaml
+    volumes:
+      - ./config.yaml:/app/config.yaml
     
   postgres:
     image: postgres:14.4-alpine

@@ -8,9 +8,6 @@ import (
 )
 
 func (c *Core) setupConf(cfgFile string) {
-
-	//fmt.Println("input cfgfile: ", cfgFile)
-
 	conf, err := conf.New(cfgFile)
 	if err != nil {
 		fmt.Println("Setup config error")
@@ -18,5 +15,4 @@ func (c *Core) setupConf(cfgFile string) {
 	} else {
 		c.conf = conf
 	}
-
 }

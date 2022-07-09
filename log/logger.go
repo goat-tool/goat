@@ -8,7 +8,6 @@ import (
 	"path/filepath"
 
 	"github.com/rs/zerolog"
-	"github.com/spf13/viper"
 )
 
 type Logger struct {
@@ -18,18 +17,15 @@ type Logger struct {
 func New(isDebug bool, logFile string) (*Logger, error) {
 	zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	logLevel := zerolog.InfoLevel
-	// Find home directory.
-	home, err := os.UserHomeDir()
-	if err != nil {
-		fmt.Println("Error getting home dir")
-	}
-	if logFile == "" {
-		logFile = home + "/" + viper.GetString("log.file")
-	}
-	if !isDebug {
-		//fmt.Println("debug not set by cli -> get it from config")
-		isDebug = viper.GetBool("log.debug")
-	}
+	/*
+		if logFile == "" {
+			logFile = viper.GetString("log.file")
+		}
+		fmt.Println(logFile)
+		if !isDebug {
+			//fmt.Println("debug not set by cli -> get it from config")
+			isDebug = viper.GetBool("log.debug")
+		}*/
 	if isDebug {
 		logLevel = zerolog.DebugLevel
 	}
