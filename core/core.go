@@ -14,12 +14,13 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 type Core struct {
-	Log  *log.Logger
-	conf *conf.Config
-	//	Database *mongo.Client
+	Log        *log.Logger
+	conf       *conf.Config
+	Database   *pgxpool.Pool
 	httpServer *http.Server
 	router     *mux.Router
 	handler    http.Handler

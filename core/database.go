@@ -9,11 +9,12 @@ package core
 // "go.mongodb.org/mongo-driver/mongo/readpref"
 
 import (
-	"database/sql"
 	"fmt"
 	"strconv"
 
-	_ "github.com/lib/pq"
+	"context"
+
+	"github.com/jackc/pgx/v4/pgxpool"
 )
 
 func (c *Core) setupDatabase() {
@@ -25,20 +26,37 @@ func (c *Core) setupDatabase() {
 		fmt.Println("String to int error:", err)
 	}
 
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.conf.Database.Host, portInt, c.conf.Database.Username, c.conf.Database.Password, c.conf.Database.Name)
-	db, err := sql.Open("postgres", psqlInfo)
+	dbUrl := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.conf.Database.Host, portInt, c.conf.Database.Username, c.conf.Database.Password, c.conf.Database.Name)
+	conn, err := pgxpool.Connect(context.Background(), dbUrl)
 	if err != nil {
 		c.Log.Panic().Err(err).Msg("Setup database connection error")
-		//panic(err)
 	}
-	defer db.Close()
 
-	err = db.Ping()
+	defer conn.Close()
+
+	err = conn.Ping(context.Background())
 	if err != nil {
 		c.Log.Error().Err(err).Msg("Setup database ping error")
 	} else {
-		c.Log.Info().Msg("Setup database done")
+		c.Log.Info().Msg("Setup database ping successful")
 	}
+
+	c.Database = conn
+
+	// psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.conf.Database.Host, portInt, c.conf.Database.Username, c.conf.Database.Password, c.conf.Database.Name)
+	// db, err := sql.Open("postgres", psqlInfo)
+	// if err != nil {
+	// 	c.Log.Panic().Err(err).Msg("Setup database connection error")
+	// 	//panic(err)
+	// }
+	// defer db.Close()
+
+	// err = db.Ping()
+	// if err != nil {
+	// 	c.Log.Error().Err(err).Msg("Setup database ping error")
+	// } else {
+	// 	c.Log.Info().Msg("Setup database done")
+	// }
 	// client, err := mongo.NewClient(options.Client().ApplyURI(c.Config.Database.URI()))
 	// if err != nil {
 	// 	logger.Fatalf("failed to create database client: %v", err)

@@ -1,26 +1,24 @@
 package test
 
 import (
-	"fmt"
+	"goat/log"
 )
 
 // "time"
-
-// "goat/log"
 
 // "go.mongodb.org/mongo-driver/bson/primitive"
 // "golang.org/x/crypto/bcrypt"
 
 type Service struct {
-	// logger log.Logger
+	Log   *log.Logger
 	Store *Store
 }
 
-func NewService() *Service {
-	fmt.Println("TODO: NewService() in services/test/service.go")
+func NewService(log *log.Logger) *Service {
+	log.Warn().Msg("TODO: NewService() in services/test/service.go")
 	return &Service{
-		// 	// logger: logger.WithPrefix("service.test"),
-		// 	Store: store,
+		Log: log,
+		//Store: store,
 	}
 }
 
@@ -60,6 +58,7 @@ func NewService() *Service {
 
 func (s *Service) GetAll() ([]*Test, error) {
 	//	fmt.Println("TODO: services/user/service.go GetAll")
+	s.Log.Warn().Msg("TODO: GetAll() in services/user/service.go")
 	return nil, nil //s.Store.GetAll()
 }
 
