@@ -1,29 +1,32 @@
 package test
 
-// "context"
-// "time"
+import (
+	"fmt"
+	"goat/conf"
+	// "context"
+	// "time"
+	// "goat/log"
+	// "go.mongodb.org/mongo-driver/bson"
+	// "go.mongodb.org/mongo-driver/bson/primitive"
+	// "go.mongodb.org/mongo-driver/mongo"
+)
 
-// "goat/config"
-// "goat/log"
+type Store struct {
+	//logger     log.Logger
+	//config *conf.Config
+	//collection *mongo.Collection
+	//collection *pq.
+}
 
-// "go.mongodb.org/mongo-driver/bson"
-// "go.mongodb.org/mongo-driver/bson/primitive"
-// "go.mongodb.org/mongo-driver/mongo"
+func NewStore(config *conf.Config) *Store {
+	// 	collection := client.Database(config.Database.Name).Collection("users")
+	fmt.Println("Todo: NewStore() in services/test/store.go")
 
-// type Store struct {
-// 	logger     log.Logger
-// 	config     *config.Config
-// 	collection *mongo.Collection
-// }
-
-// func NewStore(logger log.Logger, config *config.Config, client *mongo.Client) *Store {
-// 	collection := client.Database(config.Database.Name).Collection("users")
-
-// 	return &Store{
-// 		logger:     logger.WithPrefix("store.user"),
-// 		collection: collection,
-// 	}
-// }
+	return &Store{
+		//logger:     logger.WithPrefix("store.user"),
+		//collection: collection,
+	}
+}
 
 // func (s *Store) Create(user *User) (*User, error) {
 // 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)

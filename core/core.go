@@ -17,8 +17,9 @@ import (
 )
 
 type Core struct {
-	Log        *log.Logger
-	conf       *conf.Config
+	Log  *log.Logger
+	conf *conf.Config
+	//	Database *mongo.Client
 	httpServer *http.Server
 	router     *mux.Router
 	handler    http.Handler

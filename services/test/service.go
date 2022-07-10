@@ -1,5 +1,9 @@
 package test
 
+import (
+	"fmt"
+)
+
 // "time"
 
 // "goat/log"
@@ -9,13 +13,14 @@ package test
 
 type Service struct {
 	// logger log.Logger
-	// Store  *Store
+	Store *Store
 }
 
 func NewService() *Service {
+	fmt.Println("TODO: NewService() in services/test/service.go")
 	return &Service{
-		// logger: logger.WithPrefix("service.test"),
-		// Store:  store,
+		// 	// logger: logger.WithPrefix("service.test"),
+		// 	Store: store,
 	}
 }
 

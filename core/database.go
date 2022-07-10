@@ -3,6 +3,7 @@ package core
 // "context"
 // "time"
 
+//TODO switch to a new postgres driver. maybe pgx
 // "go.mongodb.org/mongo-driver/mongo"
 // "go.mongodb.org/mongo-driver/mongo/options"
 // "go.mongodb.org/mongo-driver/mongo/readpref"
