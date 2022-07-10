@@ -1,13 +1,5 @@
 package core
 
-// "context"
-// "time"
-
-//TODO switch to a new postgres driver. maybe pgx
-// "go.mongodb.org/mongo-driver/mongo"
-// "go.mongodb.org/mongo-driver/mongo/options"
-// "go.mongodb.org/mongo-driver/mongo/readpref"
-
 import (
 	"fmt"
 	"strconv"
@@ -42,25 +34,6 @@ func (c *Core) setupDatabase() {
 	}
 
 	c.Database = conn
-
-	// psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.conf.Database.Host, portInt, c.conf.Database.Username, c.conf.Database.Password, c.conf.Database.Name)
-	// db, err := sql.Open("postgres", psqlInfo)
-	// if err != nil {
-	// 	c.Log.Panic().Err(err).Msg("Setup database connection error")
-	// 	//panic(err)
-	// }
-	// defer db.Close()
-
-	// err = db.Ping()
-	// if err != nil {
-	// 	c.Log.Error().Err(err).Msg("Setup database ping error")
-	// } else {
-	// 	c.Log.Info().Msg("Setup database done")
-	// }
-	// client, err := mongo.NewClient(options.Client().ApplyURI(c.Config.Database.URI()))
-	// if err != nil {
-	// 	logger.Fatalf("failed to create database client: %v", err)
-	// }
 
 	// ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 

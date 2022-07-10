@@ -60,7 +60,7 @@ func NewService(log *log.Logger, conf *conf.Config) *Service {
 func (s *Service) GetAll() ([]*Test, error) {
 	//	fmt.Println("TODO: services/user/service.go GetAll")
 	s.Log.Warn().Msg("TODO: GetAll() in services/user/service.go")
-	return nil, nil //s.Store.GetAll()
+	return s.Store.GetAll()
 }
 
 // func (s *Service) Update(id string, input TestInput) (*Test, error) {

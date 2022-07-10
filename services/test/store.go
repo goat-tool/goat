@@ -6,24 +6,23 @@ import (
 	// "context"
 	// "time"
 	"goat/log"
-	// "go.mongodb.org/mongo-driver/bson"
-	// "go.mongodb.org/mongo-driver/bson/primitive"
-	// "go.mongodb.org/mongo-driver/mongo"
 )
 
 type Store struct {
-	//logger     log.Logger
-	//config *conf.Config
+	log  *log.Logger
+	conf *conf.Config
 	//collection *mongo.Collection
 	//collection *pq.
 }
 
-func NewStore(log *log.Logger, config *conf.Config) *Store {
+func NewStore(log *log.Logger, conf *conf.Config) *Store {
 	// 	collection := client.Database(config.Database.Name).Collection("users")
 	log.Warn().Msg("Todo: NewStore() in services/test/store.go")
 
+	//TODO: is the conf really needed here?
 	return &Store{
-		//logger:     logger.WithPrefix("store.user"),
+		log:  log,
+		conf: conf,
 		//collection: collection,
 	}
 }
@@ -43,30 +42,32 @@ func NewStore(log *log.Logger, config *conf.Config) *Store {
 // 	return user, nil
 // }
 
-// func (s *Store) GetAll() ([]*User, error) {
-// 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
-// 	defer cancel()
+func (s *Store) GetAll() ([]*Test, error) {
+	// 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+	// 	defer cancel()
 
-// 	var users []*User
+	var tests []*Test
 
-// 	cursor, err := s.collection.Find(ctx, bson.M{})
-// 	if err != nil {
-// 		s.logger.Warnf("failed to find users: %v", err)
-// 		return nil, ErrFindFailed
-// 	}
+	s.log.Warn().Msg("Todo: GetAll() in services/test/store.go")
 
-// 	err = cursor.All(ctx, &users)
-// 	if err != nil {
-// 		s.logger.Warnf("failed to load users: %v", err)
-// 		return nil, ErrFindFailed
-// 	}
+	// 	cursor, err := s.collection.Find(ctx, bson.M{})
+	// 	if err != nil {
+	// 		s.logger.Warnf("failed to find users: %v", err)
+	// 		return nil, ErrFindFailed
+	// 	}
 
-// 	if len(users) == 0 {
-// 		return nil, ErrNotFound
-// 	}
+	// 	err = cursor.All(ctx, &users)
+	// 	if err != nil {
+	// 		s.logger.Warnf("failed to load users: %v", err)
+	// 		return nil, ErrFindFailed
+	// 	}
 
-// 	return users, nil
-// }
+	// 	if len(users) == 0 {
+	// 		return nil, ErrNotFound
+	// 	}
+
+	return tests, nil
+}
 
 // func (s *Store) GetByID(id string) (*User, error) {
 // 	idObj, err := primitive.ObjectIDFromHex(id)
