@@ -16,28 +16,27 @@ import (
 )
 
 func (c *Core) setupDatabase() {
-	c.Log.Info().Msg("setting up database")
+	c.Log.Info().Msg("Setup database")
 
 	// convert string to integer
 	portInt, err := strconv.Atoi(c.conf.Database.Port)
 	if err != nil {
-		fmt.Println("error:", err)
+		fmt.Println("String to int error:", err)
 	}
 
 	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.conf.Database.Host, portInt, c.conf.Database.Username, c.conf.Database.Password, c.conf.Database.Name)
 	db, err := sql.Open("postgres", psqlInfo)
 	if err != nil {
-		fmt.Println("error connecting!")
-		c.Log.Panic().Err(err).Msg("error connecting db")
+		c.Log.Panic().Err(err).Msg("Setup database connection error")
 		//panic(err)
 	}
 	defer db.Close()
 
 	err = db.Ping()
 	if err != nil {
-		c.Log.Error().Err(err).Msg("error pinging db")
+		c.Log.Error().Err(err).Msg("Setup database ping error")
 	} else {
-		c.Log.Info().Msg("Successfully connected!")
+		c.Log.Info().Msg("Setup database done")
 	}
 	// client, err := mongo.NewClient(options.Client().ApplyURI(c.Config.Database.URI()))
 	// if err != nil {

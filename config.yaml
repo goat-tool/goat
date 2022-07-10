@@ -10,4 +10,4 @@ database:
     name: goat
 log:
     debug: true
-    file: /app/goat.log
+    file: /var/log/goat/goat.log

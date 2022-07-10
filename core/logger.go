@@ -12,6 +12,9 @@ func (c *Core) setupLog(isDebug bool, logFile string) {
 	//fmt.Println("Input logfile: ", logFile)
 	//fmt.Println("Input isDebug: ", isDebug)
 
+	//Set TimeZone
+	os.Setenv("TZ", "Europe/Zurich")
+
 	if logFile == "" {
 		logFile = c.conf.Log.File
 	}

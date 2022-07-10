@@ -17,20 +17,9 @@ type Logger struct {
 
 func New(isDebug bool, logFile string) (*Logger, error) {
 
-	//Set TimeZone
-	os.Setenv("TZ", "Europe/Zurich")
-
 	//zerolog.TimeFieldFormat = zerolog.TimeFormatUnix
 	logLevel := zerolog.InfoLevel
-	/*
-		if logFile == "" {
-			logFile = viper.GetString("log.file")
-		}
-		fmt.Println(logFile)
-		if !isDebug {
-			//fmt.Println("debug not set by cli -> get it from config")
-			isDebug = viper.GetBool("log.debug")
-		}*/
+
 	if isDebug {
 		logLevel = zerolog.DebugLevel
 	}
@@ -49,20 +38,6 @@ func New(isDebug bool, logFile string) (*Logger, error) {
 	//logger = logger.Output(zerolog.ConsoleWriter{Out: os.Stdout})
 
 	return &Logger{logger: &logger}, nil
-}
-
-func NewConsole(isDebug bool) *Logger {
-	logLevel := zerolog.InfoLevel
-	if isDebug {
-		logLevel = zerolog.DebugLevel
-	}
-
-	zerolog.SetGlobalLevel(logLevel)
-	logger := zerolog.New(os.Stdout).With().Caller().Timestamp().Logger()
-	//Pretty
-	logger = logger.Output(zerolog.ConsoleWriter{Out: os.Stderr})
-
-	return &Logger{logger: &logger}
 }
 
 // Output duplicates the global logger and sets w as its output.
