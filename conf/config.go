@@ -40,7 +40,6 @@ func New(cfgFile string) (*Config, error) {
 
 	viper.SetConfigType("yaml")
 	viper.SetConfigName("config")
-	viper.AddConfigPath("/etc/goat/")
 	viper.AddConfigPath(".")
 	viper.AddConfigPath("/app/")
 	viper.AddConfigPath(home + "/.goat/")

@@ -17,6 +17,8 @@ func (c *Core) setupLog(isDebug bool, logFile string) {
 
 	if logFile == "" {
 		logFile = c.conf.Log.File
+	} else {
+		c.conf.Log.File = logFile
 	}
 
 	if !isDebug {
