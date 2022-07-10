@@ -9,6 +9,7 @@ func (c *Core) setupApi() {
 	c.api = &api.Api{
 		Health: api.NewHealthEndpoint(c.services.Health),
 		User:   api.NewUserEndpoint(c.services.User),
+		Test:   api.NewTestEndpoint(c.services.Test),
 	}
 
 	c.api.Setup(c.router)

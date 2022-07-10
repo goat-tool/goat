@@ -14,6 +14,7 @@ import (
 type Api struct {
 	Health *HealthEndpoint
 	User   *UserEndpoint
+	Test   *TestEndpoint
 }
 
 type Body struct {
@@ -31,12 +32,20 @@ func (a *Api) Setup(router *mux.Router) {
 	// Health
 	v1.HandleFunc("/health", a.Health.GetHealth).Methods(http.MethodGet)
 
-	// // User
+	// User
 	// v1.HandleFunc("/users", a.User.CreateUser).Methods(http.MethodPost)
 	v1.HandleFunc("/users", a.User.GetAllUsers).Methods(http.MethodGet)
 	v1.HandleFunc("/users/{id}", a.User.GetUserById).Methods(http.MethodGet)
 	// v1.HandleFunc("/users/{id}", a.User.UpdateUser).Methods(http.MethodPut)
 	// v1.HandleFunc("/users/{id}", a.User.DeleteUser).Methods(http.MethodDelete)
+
+	// Test
+	// v1.HandleFunc("/test", a.Test.CreateTest).Methods(http.MethodPost)
+	v1.HandleFunc("/tests", a.Test.GetAllTests).Methods(http.MethodGet)
+	v1.HandleFunc("/tests/{id}", a.Test.GetTestById).Methods(http.MethodGet)
+	// v1.HandleFunc("/users/{id}", a.User.UpdateUser).Methods(http.MethodPut)
+	// v1.HandleFunc("/users/{id}", a.User.DeleteUser).Methods(http.MethodDelete)
+
 }
 
 func respond(w http.ResponseWriter, status int, message string, data interface{}) {

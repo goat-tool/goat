@@ -1,0 +1,121 @@
+package test
+
+// "time"
+
+// "goat/log"
+
+// "go.mongodb.org/mongo-driver/bson/primitive"
+// "golang.org/x/crypto/bcrypt"
+
+type Service struct {
+	// logger log.Logger
+	// Store  *Store
+}
+
+func NewService() *Service {
+	return &Service{
+		// logger: logger.WithPrefix("service.test"),
+		// Store:  store,
+	}
+}
+
+// func NewService(logger log.Logger, store *Store) *Service {
+// 	return &Service{
+// 		logger: logger.WithPrefix("service.test"),
+// 		Store:  store,
+// 	}
+// }
+
+// func (s *Service) Create(input TestInput) (*Test, error) {
+// 	var u Test
+
+// 	hash, err := s.hashPassword(u.Hash)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+
+// 	//TODO validation
+// 	u.Testname = input.Testname
+// 	u.Email = input.Email
+// 	u.FirstName = input.FirstName
+// 	u.LastName = input.LastName
+// 	u.Hash = hash
+
+// 	timeNow := time.Now().Unix()
+// 	u.CreatedAt = timeNow
+// 	u.UpdatedAt = timeNow
+
+// 	createdTest, err := s.Store.Create(&u)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+
+// 	return createdTest, nil
+// }
+
+func (s *Service) GetAll() ([]*Test, error) {
+	//	fmt.Println("TODO: services/user/service.go GetAll")
+	return nil, nil //s.Store.GetAll()
+}
+
+// func (s *Service) Update(id string, input TestInput) (*Test, error) {
+// 	u, err := s.Store.GetByID(id)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+
+// 	//TODO validation
+// 	if input.Password != "" {
+// 		return nil, ErrPasswordChangeNotAllowed
+// 	}
+
+// 	if input.Testname != "" {
+// 		u.Testname = input.Testname
+// 	}
+
+// 	if input.Email != "" {
+// 		u.Email = input.Email
+// 	}
+
+// 	if input.FirstName != "" {
+// 		u.FirstName = input.FirstName
+// 	}
+
+// 	if input.LastName != "" {
+// 		u.LastName = input.LastName
+// 	}
+
+// 	u.UpdatedAt = time.Now().Unix()
+
+// 	return s.Store.Update(u)
+// }
+
+// func (s *Service) Delete(id string) error {
+// 	idObj, err := primitive.ObjectIDFromHex(id)
+// 	if err != nil {
+// 		s.logger.Debugf("failed to parse test id: %v", err)
+// 		return ErrIdParseFailed
+// 	}
+
+// 	return s.Store.Delete(idObj)
+// }
+
+// func (s *Service) hashPassword(password string) (string, error) {
+// 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
+// 	if err != nil {
+// 		//TODO better error handling
+// 		return "", err
+// 	}
+
+// 	return string(bytes), nil
+// }
+
+// func (s *Service) verifyPassword(hash string, password string) bool {
+// 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+// 	if err != nil {
+// 		//TODO add logging
+// 		return false
+// 	}
+
+// 	return true
+// }
