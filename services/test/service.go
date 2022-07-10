@@ -1,6 +1,7 @@
 package test
 
 import (
+	"goat/conf"
 	"goat/log"
 )
 
@@ -14,11 +15,11 @@ type Service struct {
 	Store *Store
 }
 
-func NewService(log *log.Logger) *Service {
+func NewService(log *log.Logger, conf *conf.Config) *Service {
 	log.Warn().Msg("TODO: NewService() in services/test/service.go")
 	return &Service{
-		Log: log,
-		//Store: store,
+		Log:   log,
+		Store: NewStore(log, conf),
 	}
 }
 

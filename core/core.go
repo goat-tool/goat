@@ -19,7 +19,7 @@ import (
 
 type Core struct {
 	Log        *log.Logger
-	conf       *conf.Config
+	Conf       *conf.Config
 	Database   *pgxpool.Pool
 	httpServer *http.Server
 	router     *mux.Router
@@ -74,7 +74,7 @@ func (c *Core) StartServer() {
 	c.Log.Info().Msg("Starting server")
 
 	c.httpServer = &http.Server{
-		Addr:         c.conf.Server.URL(),
+		Addr:         c.Conf.Server.URL(),
 		Handler:      c.handler,
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,

@@ -16,14 +16,14 @@ func (c *Core) setupLog(isDebug bool, logFile string) {
 	os.Setenv("TZ", "Europe/Zurich")
 
 	if logFile == "" {
-		logFile = c.conf.Log.File
+		logFile = c.Conf.Log.File
 	} else {
-		c.conf.Log.File = logFile
+		c.Conf.Log.File = logFile
 	}
 
 	if !isDebug {
 		//fmt.Println("debug not set by cli -> get it from config")
-		isDebug = c.conf.Log.Debug
+		isDebug = c.Conf.Log.Debug
 	}
 
 	log, err := log.New(isDebug, logFile)
@@ -33,9 +33,9 @@ func (c *Core) setupLog(isDebug bool, logFile string) {
 	} else {
 		c.Log = log
 		c.Log.Info().Msg("Setup conf")
-		c.Log.Debug().Str("Host", c.conf.Server.Host).Int("Port", c.conf.Server.Port).Msg("Server")
-		c.Log.Debug().Str("File", c.conf.Log.File).Bool("Debug", c.conf.Log.Debug).Msg("Logger")
-		c.Log.Debug().Str("Host", c.conf.Database.Host).Str("Username", c.conf.Database.Username).Str("Password", c.conf.Database.Password).Str("Driver", c.conf.Database.Driver).Str("Port", c.conf.Database.Port).Str("Name", c.conf.Database.Name).Msg("Database")
+		c.Log.Debug().Str("Host", c.Conf.Server.Host).Int("Port", c.Conf.Server.Port).Msg("Server")
+		c.Log.Debug().Str("File", c.Conf.Log.File).Bool("Debug", c.Conf.Log.Debug).Msg("Logger")
+		c.Log.Debug().Str("Host", c.Conf.Database.Host).Str("Username", c.Conf.Database.Username).Str("Password", c.Conf.Database.Password).Str("Driver", c.Conf.Database.Driver).Str("Port", c.Conf.Database.Port).Str("Name", c.Conf.Database.Name).Msg("Database")
 		c.Log.Info().Msg("Setup log")
 	}
 

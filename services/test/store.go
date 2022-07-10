@@ -1,11 +1,11 @@
 package test
 
 import (
-	"fmt"
 	"goat/conf"
+
 	// "context"
 	// "time"
-	// "goat/log"
+	"goat/log"
 	// "go.mongodb.org/mongo-driver/bson"
 	// "go.mongodb.org/mongo-driver/bson/primitive"
 	// "go.mongodb.org/mongo-driver/mongo"
@@ -18,9 +18,9 @@ type Store struct {
 	//collection *pq.
 }
 
-func NewStore(config *conf.Config) *Store {
+func NewStore(log *log.Logger, config *conf.Config) *Store {
 	// 	collection := client.Database(config.Database.Name).Collection("users")
-	fmt.Println("Todo: NewStore() in services/test/store.go")
+	log.Warn().Msg("Todo: NewStore() in services/test/store.go")
 
 	return &Store{
 		//logger:     logger.WithPrefix("store.user"),

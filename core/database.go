@@ -21,12 +21,12 @@ func (c *Core) setupDatabase() {
 	c.Log.Info().Msg("Setup database")
 
 	// convert string to integer
-	portInt, err := strconv.Atoi(c.conf.Database.Port)
+	portInt, err := strconv.Atoi(c.Conf.Database.Port)
 	if err != nil {
 		fmt.Println("String to int error:", err)
 	}
 
-	dbUrl := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.conf.Database.Host, portInt, c.conf.Database.Username, c.conf.Database.Password, c.conf.Database.Name)
+	dbUrl := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.Conf.Database.Host, portInt, c.Conf.Database.Username, c.Conf.Database.Password, c.Conf.Database.Name)
 	conn, err := pgxpool.Connect(context.Background(), dbUrl)
 	if err != nil {
 		c.Log.Panic().Err(err).Msg("Setup database connection error")
