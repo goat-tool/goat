@@ -14,13 +14,14 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	"github.com/jackc/pgx/v4/pgxpool"
+	// "github.com/jackc/pgx/v4/pgxpool"
+	"gorm.io/gorm"
 )
 
 type Core struct {
 	Log        *log.Logger
 	Conf       *conf.Config
-	Database   *pgxpool.Pool
+	Database   *gorm.DB
 	httpServer *http.Server
 	router     *mux.Router
 	handler    http.Handler
@@ -46,7 +47,7 @@ func New(cfgFile string, isDebug bool, logFile string) (*Core, error) {
 
 	c.state = health.StateStarting
 	c.router = mux.NewRouter()
-
+	//c.Database = c.newDatabase()
 	ctx, cancel := context.WithCancel(context.Background())
 	c.wg = &sync.WaitGroup{}
 	c.context = globalContext{
@@ -54,14 +55,14 @@ func New(cfgFile string, isDebug bool, logFile string) (*Core, error) {
 		ctx:    ctx,
 	}
 
-	c.setupConf(cfgFile)
-	c.setupLog(isDebug, logFile)
+	c.newConf(cfgFile)
+	c.newLog(isDebug, logFile)
 	// c.setupTranslator()
 	// c.setupValidator()
-	c.setupDatabase()
-	c.setupServices()
-	c.setupApi()
-	c.setupRouter()
+	c.newDatabase()
+	c.newServices()
+	c.newApi()
+	c.newRouter()
 
 	c.Log.Info().Msg("New core done")
 	c.state = health.StateRunning

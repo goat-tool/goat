@@ -2,7 +2,7 @@ package core
 
 import "goat/api"
 
-func (c *Core) setupApi() {
+func (c *Core) newApi() {
 
 	c.Log.Info().Msg("Setup api")
 

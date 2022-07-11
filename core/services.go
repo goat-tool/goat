@@ -7,7 +7,7 @@ import (
 	"goat/services/user"
 )
 
-func (c *Core) setupServices() {
+func (c *Core) newServices() {
 
 	c.Log.Info().Msg("Setup services")
 

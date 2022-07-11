@@ -59,7 +59,7 @@ func NewService(log *log.Logger, conf *conf.Config) *Service {
 
 func (s *Service) GetAll() ([]*Test, error) {
 	//	fmt.Println("TODO: services/user/service.go GetAll")
-	s.Log.Warn().Msg("TODO: GetAll() in services/user/service.go")
+	s.Log.Warn().Msg("TODO: GetAll() in services/test/service.go")
 	return s.Store.GetAll()
 }
 

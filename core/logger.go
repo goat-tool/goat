@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func (c *Core) setupLog(isDebug bool, logFile string) {
+func (c *Core) newLog(isDebug bool, logFile string) {
 
 	//fmt.Println("Input logfile: ", logFile)
 	//fmt.Println("Input isDebug: ", isDebug)

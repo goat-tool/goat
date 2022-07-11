@@ -1,40 +1,37 @@
 package core
 
 import (
+	//"github.com/tutorials/go/crud/pkg/models"
 	"fmt"
 	"strconv"
 
-	"context"
-
-	"github.com/jackc/pgx/v4/pgxpool"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
 )
 
-func (c *Core) setupDatabase() {
+func (c *Core) newDatabase() {
 	c.Log.Info().Msg("Setup database")
+	// gorm *******************************************************************************
+	//dbURL := "postgres://pg:pass@localhost:5432/crud"
 
 	// convert string to integer
 	portInt, err := strconv.Atoi(c.Conf.Database.Port)
 	if err != nil {
 		fmt.Println("String to int error:", err)
 	}
+	dbURL := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.Conf.Database.Host, portInt, c.Conf.Database.Username, c.Conf.Database.Password, c.Conf.Database.Name)
 
-	dbUrl := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.Conf.Database.Host, portInt, c.Conf.Database.Username, c.Conf.Database.Password, c.Conf.Database.Name)
-	conn, err := pgxpool.Connect(context.Background(), dbUrl)
+	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{})
+
 	if err != nil {
-		c.Log.Panic().Err(err).Msg("Setup database connection error")
-	}
-
-	defer conn.Close()
-
-	err = conn.Ping(context.Background())
-	if err != nil {
-		c.Log.Error().Err(err).Msg("Setup database ping error")
+		c.Log.Fatal().Err(err).Msg("Error opening db")
 	} else {
-		c.Log.Info().Msg("Setup database ping successful")
+		c.Log.Info().Msg("DB OK")
 	}
+	//db.AutoMigrate(&models.Book{})
+	c.Database = db
 
-	c.Database = conn
-
+	// old stuff *******************************************************************************
 	// ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
 
 	// err = client.Connect(ctx)

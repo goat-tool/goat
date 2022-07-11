@@ -7,7 +7,7 @@ import (
 	"os"
 )
 
-func (c *Core) setupConf(cfgFile string) {
+func (c *Core) newConf(cfgFile string) {
 	conf, err := conf.New(cfgFile)
 	if err != nil {
 		fmt.Println("Setup config error")

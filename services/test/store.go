@@ -12,7 +12,6 @@ type Store struct {
 	log  *log.Logger
 	conf *conf.Config
 	//collection *mongo.Collection
-	//collection *pq.
 }
 
 func NewStore(log *log.Logger, conf *conf.Config) *Store {
