@@ -3,10 +3,10 @@ package test
 // import "go.mongodb.org/mongo-driver/bson/primitive"
 
 type Test struct {
-	ID        int
-	TestValue string
-	CreatedAt int64
-	UpdatedAt int64
+	ID        int    `json:"id" gorm:"primaryKey"`
+	TestValue string `json:"testvalue"`
+	CreatedAt int64  `json:"created_at"`
+	UpdatedAt int64  `json:"updated_at"`
 }
 
 // type TestInput struct {
@@ -24,14 +24,14 @@ type Test struct {
 // }
 
 // type Test struct {
-// 	ID        primitive.ObjectID `json:"id" bson:"_id,omitempty"`
-// 	Testname  string             `json:"testname" bson:"testname"`
-// 	Email     string             `json:"email" bson:"email"`
-// 	FirstName string             `json:"first_name" bson:"first_name"`
-// 	LastName  string             `json:"last_name" bson:"last_name"`
-// 	Hash      string             `json:"-" bson:"hash"`
-// 	CreatedAt int64              `json:"created_at" bson:"created_at"`
-// 	UpdatedAt int64              `json:"updated_at" bson:"updated_at"`
+// 	ID        int		`json:"id" gorm:"primaryKey"`
+// 	Testname  string    `json:"testname"`
+// 	Email     string    `json:"email"`
+// 	FirstName string    `json:"first_name"`
+// 	LastName  string    `json:"last_name"`
+// 	Hash      string    `json:"hash"`
+// 	CreatedAt int64     `json:"created_at"`
+// 	UpdatedAt int64     `json:"updated_at"`
 // }
 
 // type TestInput struct {

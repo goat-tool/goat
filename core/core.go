@@ -59,7 +59,7 @@ func New(cfgFile string, isDebug bool, logFile string) (*Core, error) {
 	c.newLog(isDebug, logFile)
 	// c.setupTranslator()
 	// c.setupValidator()
-	c.newDatabase()
+	c.NewDatabase()
 	c.newServices()
 	c.newApi()
 	c.newRouter()

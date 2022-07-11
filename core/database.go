@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-func (c *Core) newDatabase() {
+func (c *Core) NewDatabase() {
 	c.Log.Info().Msg("Setup database")
 	// gorm *******************************************************************************
 	//dbURL := "postgres://pg:pass@localhost:5432/crud"
@@ -22,13 +22,13 @@ func (c *Core) newDatabase() {
 	dbURL := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.Conf.Database.Host, portInt, c.Conf.Database.Username, c.Conf.Database.Password, c.Conf.Database.Name)
 
 	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{})
-
 	if err != nil {
 		c.Log.Fatal().Err(err).Msg("Error opening db")
 	} else {
 		c.Log.Info().Msg("DB OK")
 	}
-	//db.AutoMigrate(&models.Book{})
+	//Todo put automigrate into a cli command like here https://github.com/MystixCode/api-example/blob/master/cmd/migrate.go
+	//db.AutoMigrate(&test.Test{})
 	c.Database = db
 
 	// old stuff *******************************************************************************

@@ -2,8 +2,10 @@ package cmd
 
 import (
 	"fmt"
+	"os"
 
-	//   "goat/core"
+	"goat/core"
+	"goat/services/test"
 
 	"github.com/spf13/cobra"
 )
@@ -21,4 +23,16 @@ var migrateCmd = &cobra.Command{
 
 func migrate(cmd *cobra.Command, args []string) {
 	fmt.Println("Todo: migrate command")
+
+	appCore, err := core.New(cfgFile, isDebug, logFile)
+	if err != nil {
+		//Log.Debug().Err(err).Msg("initCore error")
+		os.Exit(2)
+	}
+
+	appCore.NewDatabase()
+	appCore.Database.AutoMigrate(
+		test.Test{},
+	)
+
 }
