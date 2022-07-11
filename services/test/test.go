@@ -4,18 +4,16 @@ package test
 
 type Test struct {
 	ID        int    `json:"id" gorm:"primaryKey"`
+	TestName  string `json:"testname"`
 	TestValue string `json:"testvalue"`
 	CreatedAt int64  `json:"created_at"`
 	UpdatedAt int64  `json:"updated_at"`
 }
 
-// type TestInput struct {
-// 	Testname  string `json:"testname" validate:"required,min=2,max=50"`
-// 	Email     string `json:"email" validate:"required,email"`
-// 	FirstName string `json:"first_name" validate:"alphanumunicode"`
-// 	LastName  string `json:"last_name" validate:"alphanumunicode"`
-// 	Password  string `json:"password" validate:"required,password"`
-// }
+type TestInput struct {
+	TestName  string `json:"testname"`
+	TestValue string `json:"testvalue"`
+}
 
 // type PasswordInput struct {
 // 	ActivePassword string `json:"active_password" validate:"required,password"`

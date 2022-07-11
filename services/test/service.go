@@ -3,6 +3,7 @@ package test
 import (
 	"goat/conf"
 	"goat/log"
+	"time"
 )
 
 // "time"
@@ -30,32 +31,25 @@ func NewService(log *log.Logger, conf *conf.Config) *Service {
 // 	}
 // }
 
-// func (s *Service) Create(input TestInput) (*Test, error) {
-// 	var u Test
+func (s *Service) Create(input TestInput) (*Test, error) {
+	var t Test
+	s.Log.Warn().Msg("Todo: Create in services/test/service.go")
 
-// 	hash, err := s.hashPassword(u.Hash)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+	//TODO validation
+	t.TestName = input.TestName
+	t.TestValue = input.TestValue
 
-// 	//TODO validation
-// 	u.Testname = input.Testname
-// 	u.Email = input.Email
-// 	u.FirstName = input.FirstName
-// 	u.LastName = input.LastName
-// 	u.Hash = hash
+	timeNow := time.Now().Unix()
+	t.CreatedAt = timeNow
+	t.UpdatedAt = timeNow
 
-// 	timeNow := time.Now().Unix()
-// 	u.CreatedAt = timeNow
-// 	u.UpdatedAt = timeNow
+	createdTest, err := s.Store.Create(&t)
+	if err != nil {
+		return nil, err
+	}
 
-// 	createdTest, err := s.Store.Create(&u)
-// 	if err != nil {
-// 		return nil, err
-// 	}
-
-// 	return createdTest, nil
-// }
+	return createdTest, nil
+}
 
 func (s *Service) GetAll() ([]*Test, error) {
 	//	fmt.Println("TODO: services/user/service.go GetAll")

@@ -26,20 +26,21 @@ func NewStore(log *log.Logger, conf *conf.Config) *Store {
 	}
 }
 
-// func (s *Store) Create(user *User) (*User, error) {
-// 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
-// 	defer cancel()
+func (s *Store) Create(test *Test) (*Test, error) {
+	s.log.Warn().Msg("TODO Create() in services/test/store")
+	// 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+	// 	defer cancel()
 
-// 	inserted, err := s.collection.InsertOne(ctx, user)
-// 	if err != nil {
-// 		s.logger.Warnf("failed to insert user: %v", err)
-// 		return nil, ErrInsertFailed
-// 	}
+	// 	inserted, err := s.collection.InsertOne(ctx, user)
+	// 	if err != nil {
+	// 		s.logger.Warnf("failed to insert user: %v", err)
+	// 		return nil, ErrInsertFailed
+	// 	}
 
-// 	user.ID = inserted.InsertedID.(primitive.ObjectID)
+	// 	user.ID = inserted.InsertedID.(primitive.ObjectID)
 
-// 	return user, nil
-// }
+	return test, nil
+}
 
 func (s *Store) GetAll() ([]*Test, error) {
 	// 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)

@@ -4,6 +4,8 @@ import (
 	// "encoding/json"
 	// ut "github.com/go-playground/universal-translator"
 
+	"encoding/json"
+	"fmt"
 	"net/http"
 
 	// "goat/log"
@@ -36,31 +38,31 @@ func NewTestEndpoint(service *test.Service) *TestEndpoint {
 // 	}
 // }
 
-// func (e *TestEndpoint) CreateTest(w http.ResponseWriter, r *http.Request) {
-// 	trans := getTranslator(r, e.translator)
+func (e *TestEndpoint) CreateTest(w http.ResponseWriter, r *http.Request) {
+	e.service.Log.Warn().Msg("TODO: CreateTest() in api/test.go")
+	var input test.TestInput
 
-// 	var input test.TestInput
+	err := json.NewDecoder(r.Body).Decode(&input)
+	if err != nil {
+		respond(w, http.StatusBadRequest, "invalid body", nil)
+		return
+	}
 
-// 	err := json.NewDecoder(r.Body).Decode(&input)
-// 	if err != nil {
-// 		respond(w, e.logger, http.StatusBadRequest, "invalid body", nil)
-// 		return
-// 	}
+	// err = e.validate.Struct(input)
+	// if err != nil {
+	// 	errs := getValidationError(err.(validator.ValidationErrors), trans)
+	// 	respond(w, e.logger, http.StatusBadRequest, "validation failed", errs)
+	// 	return
+	// }
 
-// 	err = e.validate.Struct(input)
-// 	if err != nil {
-// 		errs := getValidationError(err.(validator.ValidationErrors), trans)
-// 		respond(w, e.logger, http.StatusBadRequest, "validation failed", errs)
-// 		return
-// 	}
+	createdTest, err := e.service.Create(input)
+	if err != nil {
+		// TODO add error handling + respond
+		fmt.Println("error createdTest")
+	}
 
-// 	createdTest, err := e.service.Create(input)
-// 	if err != nil {
-// 		// TODO add error handling
-// 	}
-
-// 	respond(w, e.logger, http.StatusCreated, "test created successfully", createdTest)
-// }
+	respond(w, http.StatusCreated, "test created successfully", createdTest)
+}
 
 func (e *TestEndpoint) GetAllTests(w http.ResponseWriter, _ *http.Request) {
 	tests, err := e.service.GetAll()
