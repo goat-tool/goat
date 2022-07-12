@@ -19,7 +19,7 @@ type Service struct {
 }
 
 func NewService(log *log.Logger, conf *conf.Config, db *gorm.DB) *Service {
-	log.Warn().Msg("TODO: NewService() in services/test/service.go")
+	// log.Warn().Msg("TODO: NewService() in services/test/service.go")
 	return &Service{
 		Log:   log,
 		Store: NewStore(log, conf, db),
@@ -54,44 +54,47 @@ func (s *Service) Create(input TestInput) (*Test, error) {
 }
 
 func (s *Service) GetAll() ([]*Test, error) {
-	//	fmt.Println("TODO: services/user/service.go GetAll")
-	s.Log.Warn().Msg("TODO: GetAll() in services/test/service.go")
+	//s.Log.Warn().Msg("TODO: GetAll() in services/test/service.go")
 
 	return s.Store.GetAll()
 
 }
 
-// func (s *Service) Update(id string, input TestInput) (*Test, error) {
-// 	u, err := s.Store.GetByID(id)
-// 	if err != nil {
-// 		return nil, err
-// 	}
+func (s *Service) Update(id string, input *TestInput) (*Test, error) {
+	u, err := s.Store.GetByID(id)
+	if err != nil {
+		return nil, err
+	}
 
-// 	//TODO validation
-// 	if input.Password != "" {
-// 		return nil, ErrPasswordChangeNotAllowed
-// 	}
+	// 	//TODO validation
+	// 	if input.Password != "" {
+	// 		return nil, ErrPasswordChangeNotAllowed
+	// 	}
 
-// 	if input.Testname != "" {
-// 		u.Testname = input.Testname
-// 	}
+	if input.TestName != "" {
+		u.TestName = input.TestName
+	}
 
-// 	if input.Email != "" {
-// 		u.Email = input.Email
-// 	}
+	if input.TestValue != "" {
+		u.TestValue = input.TestValue
+	}
 
-// 	if input.FirstName != "" {
-// 		u.FirstName = input.FirstName
-// 	}
+	// 	if input.Email != "" {
+	// 		u.Email = input.Email
+	// 	}
 
-// 	if input.LastName != "" {
-// 		u.LastName = input.LastName
-// 	}
+	// 	if input.FirstName != "" {
+	// 		u.FirstName = input.FirstName
+	// 	}
 
-// 	u.UpdatedAt = time.Now().Unix()
+	// 	if input.LastName != "" {
+	// 		u.LastName = input.LastName
+	// 	}
 
-// 	return s.Store.Update(u)
-// }
+	u.UpdatedAt = time.Now().Unix()
+
+	return s.Store.Update(id, u)
+}
 
 // func (s *Service) Delete(id string) error {
 // 	idObj, err := primitive.ObjectIDFromHex(id)

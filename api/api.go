@@ -43,7 +43,7 @@ func (a *Api) Setup(router *mux.Router) {
 	v1.HandleFunc("/test", a.Test.CreateTest).Methods(http.MethodPost)
 	v1.HandleFunc("/tests", a.Test.GetAllTests).Methods(http.MethodGet)
 	v1.HandleFunc("/tests/{id}", a.Test.GetTestById).Methods(http.MethodGet)
-	// v1.HandleFunc("/users/{id}", a.User.UpdateUser).Methods(http.MethodPut)
+	v1.HandleFunc("/tests/{id}", a.Test.UpdateTest).Methods(http.MethodPut)
 	// v1.HandleFunc("/users/{id}", a.User.DeleteUser).Methods(http.MethodDelete)
 
 }

@@ -134,33 +134,39 @@ func (e *TestEndpoint) GetTestById(w http.ResponseWriter, r *http.Request) {
 // 	respond(w, e.logger, http.StatusOK, "successfully found test", foundTest)
 // }
 
-// func (e *TestEndpoint) UpdateTest(w http.ResponseWriter, r *http.Request) {
-// 	var input test.TestInput
-// 	id := mux.Vars(r)["id"]
+func (e *TestEndpoint) UpdateTest(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
+	var input *test.TestInput
+	err := json.NewDecoder(r.Body).Decode(&input)
+	if err != nil {
+		respond(w, http.StatusBadRequest, "invalid body", nil)
+		return
+	}
 
-// 	err := json.NewDecoder(r.Body).Decode(&input)
-// 	if err != nil {
-// 		respond(w, e.logger, http.StatusBadRequest, "invalid body", nil)
-// 		return
-// 	}
+	// err = e.validate.Struct(input)
+	// if err != nil {
+	// 	errs := getValidationError(err.(validator.ValidationErrors), trans)
+	// 	respond(w, e.logger, http.StatusBadRequest, "validation failed", errs)
+	// 	return
+	// }
 
-// 	updatedTest, err := e.service.Update(id, input)
-// 	if err != nil {
-// 		switch err {
-// 		case test.ErrIdParseFailed:
-// 			respond(w, e.logger, http.StatusBadRequest, err.Error(), nil)
-// 		case test.ErrNotFound:
-// 			respond(w, e.logger, http.StatusNotFound, err.Error(), nil)
-// 		case test.ErrPasswordChangeNotAllowed:
-// 			respond(w, e.logger, http.StatusBadRequest, err.Error(), nil)
-// 		default:
-// 			respond(w, e.logger, http.StatusInternalServerError, err.Error(), nil)
-// 		}
-// 		return
-// 	}
+	createdTest, err := e.service.Update(id, input)
+	if err != nil {
+		switch err {
+		case test.ErrIdParseFailed:
+			respond(w, http.StatusBadRequest, err.Error(), nil)
+		case test.ErrNotFound:
+			respond(w, http.StatusNotFound, err.Error(), nil)
+		// case test.ErrPasswordChangeNotAllowed:
+		// 	respond(w, http.StatusBadRequest, err.Error(), nil)
+		default:
+			respond(w, http.StatusInternalServerError, err.Error(), nil)
+		}
+		return
+	}
 
-// 	respond(w, e.logger, http.StatusOK, "successfully updated test", updatedTest)
-// }
+	respond(w, http.StatusCreated, "test updated successfully", createdTest)
+}
 
 // func (e *TestEndpoint) DeleteTest(w http.ResponseWriter, r *http.Request) {
 // 	id := mux.Vars(r)["id"]

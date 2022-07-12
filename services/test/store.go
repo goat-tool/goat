@@ -2,10 +2,6 @@ package test
 
 import (
 	"goat/conf"
-
-	// "context"
-	// "time"
-
 	"goat/log"
 
 	"gorm.io/gorm"
@@ -15,24 +11,21 @@ type Store struct {
 	log  *log.Logger
 	conf *conf.Config
 	db   *gorm.DB
-	//collection *mongo.Collection
 }
 
 func NewStore(log *log.Logger, conf *conf.Config, db *gorm.DB) *Store {
-	// 	collection := client.Database(config.Database.Name).Collection("users")
-	log.Warn().Msg("Todo: NewStore() in services/test/store.go")
+	// log.Warn().Msg("Todo: NewStore() in services/test/store.go")
 
 	//TODO: is the conf really needed here?
 	return &Store{
 		log:  log,
 		conf: conf,
 		db:   db,
-		//collection: collection,
 	}
 }
 
 func (s *Store) Create(test *Test) (*Test, error) {
-	s.log.Warn().Msg("TODO Create() in services/test/store")
+	// s.log.Warn().Msg("TODO Create() in services/test/store.go")
 	// 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 	// 	defer cancel()
 
@@ -51,7 +44,7 @@ func (s *Store) Create(test *Test) (*Test, error) {
 func (s *Store) GetAll() ([]*Test, error) {
 	// 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 	// 	defer cancel()
-
+	// s.log.Warn().Msg("TODO GetAll() in services/test/store.go")
 	var tests []*Test
 
 	result := s.db.Find(&tests)
@@ -81,7 +74,7 @@ func (s *Store) GetAll() ([]*Test, error) {
 }
 
 func (s *Store) GetByID(id string) (*Test, error) {
-
+	// s.log.Warn().Msg("TODO GetByID in services/test/store.go")
 	var test *Test
 
 	result := s.db.First(&test, id)
@@ -101,23 +94,29 @@ func (s *Store) GetByID(id string) (*Test, error) {
 // 	return s.getByKeyValue("email", email)
 // }
 
-// func (s *Store) Update(user *User) (*User, error) {
-// 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
-// 	defer cancel()
+func (s *Store) Update(id string, test *Test) (*Test, error) {
 
-// 	_, err := s.collection.UpdateOne(ctx, bson.M{"_id": user.ID}, bson.M{"$set": user})
-// 	if err != nil {
-// 		switch err {
-// 		case mongo.ErrNoDocuments:
-// 			return nil, ErrNotFound
-// 		default:
-// 			s.logger.Warnf("error while updating user: %v", err)
-// 			return nil, ErrUpdatedFailed
-// 		}
-// 	}
+	// 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+	// 	defer cancel()
 
-// 	return user, nil
-// }
+	result := s.db.Save(&test)
+	if result.Error != nil {
+		s.log.Error().Err(ErrUpdatedFailed).Str("id", id).Msg("")
+		return nil, ErrUpdatedFailed
+	}
+	// 	_, err := s.collection.UpdateOne(ctx, bson.M{"_id": user.ID}, bson.M{"$set": user})
+	// 	if err != nil {
+	// 		switch err {
+	// 		case mongo.ErrNoDocuments:
+	// 			return nil, ErrNotFound
+	// 		default:
+	// 			s.logger.Warnf("error while updating user: %v", err)
+	// 			return nil, ErrUpdatedFailed
+	// 		}
+	// 	}
+
+	return test, nil
+}
 
 // func (s *Store) Delete(id primitive.ObjectID) error {
 // 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
