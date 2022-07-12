@@ -99,7 +99,18 @@ func (e *TestEndpoint) GetTestById(w http.ResponseWriter, r *http.Request) {
 
 	//fmt.Println("TODO: services/test/test.go GetTestById()")
 
-	foundTest := id
+	foundTest, err := e.service.Store.GetByID(id)
+	if err != nil {
+		switch err {
+		case test.ErrIdParseFailed:
+			respond(w, http.StatusBadRequest, err.Error(), nil)
+		case test.ErrNotFound:
+			respond(w, http.StatusNotFound, err.Error(), nil)
+		default:
+			respond(w, http.StatusInternalServerError, err.Error(), nil)
+		}
+		return
+	}
 
 	respond(w, http.StatusOK, "successfully found test", foundTest)
 }

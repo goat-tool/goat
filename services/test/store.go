@@ -1,7 +1,6 @@
 package test
 
 import (
-	"fmt"
 	"goat/conf"
 
 	// "context"
@@ -57,11 +56,8 @@ func (s *Store) GetAll() ([]*Test, error) {
 
 	result := s.db.Find(&tests)
 	if result.Error != nil {
-		return nil, result.Error
+		return nil, ErrFindFailed
 	}
-
-	fmt.Println("TODO: ---------------------------------------------------")
-	fmt.Println("test: ", tests)
 
 	return tests, nil
 
@@ -84,15 +80,18 @@ func (s *Store) GetAll() ([]*Test, error) {
 	// return &tests, nil
 }
 
-// func (s *Store) GetByID(id string) (*User, error) {
-// 	idObj, err := primitive.ObjectIDFromHex(id)
-// 	if err != nil {
-// 		s.logger.Debugf("failed to parse user id: %v", err)
-// 		return nil, ErrIdParseFailed
-// 	}
+func (s *Store) GetByID(id string) (*Test, error) {
 
-// 	return s.getByKeyValue("_id", idObj)
-// }
+	var test *Test
+
+	result := s.db.First(&test, id)
+	if result.Error != nil {
+		s.log.Error().Err(ErrNotFound).Str("id", id).Msg("")
+		return nil, ErrNotFound
+	}
+
+	return test, nil
+}
 
 // func (s *Store) GetByUsername(username string) (*User, error) {
 // 	return s.getByKeyValue("username", username)
