@@ -4,6 +4,8 @@ import (
 	"goat/conf"
 	"goat/log"
 	"time"
+
+	"gorm.io/gorm"
 )
 
 // "time"
@@ -16,11 +18,11 @@ type Service struct {
 	Store *Store
 }
 
-func NewService(log *log.Logger, conf *conf.Config) *Service {
+func NewService(log *log.Logger, conf *conf.Config, db *gorm.DB) *Service {
 	log.Warn().Msg("TODO: NewService() in services/test/service.go")
 	return &Service{
 		Log:   log,
-		Store: NewStore(log, conf),
+		Store: NewStore(log, conf, db),
 	}
 }
 
@@ -33,7 +35,7 @@ func NewService(log *log.Logger, conf *conf.Config) *Service {
 
 func (s *Service) Create(input TestInput) (*Test, error) {
 	var t Test
-	s.Log.Warn().Msg("Todo: Create in services/test/service.go")
+	s.Log.Warn().Msg("Todo: Create() in services/test/service.go")
 
 	//TODO validation
 	t.TestName = input.TestName
@@ -54,7 +56,9 @@ func (s *Service) Create(input TestInput) (*Test, error) {
 func (s *Service) GetAll() ([]*Test, error) {
 	//	fmt.Println("TODO: services/user/service.go GetAll")
 	s.Log.Warn().Msg("TODO: GetAll() in services/test/service.go")
+
 	return s.Store.GetAll()
+
 }
 
 // func (s *Service) Update(id string, input TestInput) (*Test, error) {

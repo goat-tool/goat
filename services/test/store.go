@@ -1,20 +1,25 @@
 package test
 
 import (
+	"fmt"
 	"goat/conf"
 
 	// "context"
 	// "time"
+
 	"goat/log"
+
+	"gorm.io/gorm"
 )
 
 type Store struct {
 	log  *log.Logger
 	conf *conf.Config
+	db   *gorm.DB
 	//collection *mongo.Collection
 }
 
-func NewStore(log *log.Logger, conf *conf.Config) *Store {
+func NewStore(log *log.Logger, conf *conf.Config, db *gorm.DB) *Store {
 	// 	collection := client.Database(config.Database.Name).Collection("users")
 	log.Warn().Msg("Todo: NewStore() in services/test/store.go")
 
@@ -22,6 +27,7 @@ func NewStore(log *log.Logger, conf *conf.Config) *Store {
 	return &Store{
 		log:  log,
 		conf: conf,
+		db:   db,
 		//collection: collection,
 	}
 }
@@ -31,11 +37,12 @@ func (s *Store) Create(test *Test) (*Test, error) {
 	// 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 	// 	defer cancel()
 
-	// 	inserted, err := s.collection.InsertOne(ctx, user)
-	// 	if err != nil {
-	// 		s.logger.Warnf("failed to insert user: %v", err)
-	// 		return nil, ErrInsertFailed
-	// 	}
+	inserted := s.db.Create(test)
+	if inserted.Error != nil {
+
+		// 		s.logger.Warnf("failed to insert user: %v", err)
+		return nil, ErrInsertFailed
+	}
 
 	// 	user.ID = inserted.InsertedID.(primitive.ObjectID)
 
@@ -48,7 +55,15 @@ func (s *Store) GetAll() ([]*Test, error) {
 
 	var tests []*Test
 
-	s.log.Warn().Msg("Todo: GetAll() in services/test/store.go")
+	result := s.db.Find(&tests)
+	if result.Error != nil {
+		return nil, result.Error
+	}
+
+	fmt.Println("TODO: ---------------------------------------------------")
+	fmt.Println("test: ", tests)
+
+	return tests, nil
 
 	// 	cursor, err := s.collection.Find(ctx, bson.M{})
 	// 	if err != nil {
@@ -66,7 +81,7 @@ func (s *Store) GetAll() ([]*Test, error) {
 	// 		return nil, ErrNotFound
 	// 	}
 
-	return tests, nil
+	// return &tests, nil
 }
 
 // func (s *Store) GetByID(id string) (*User, error) {
