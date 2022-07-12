@@ -32,7 +32,7 @@ func (s *Store) Create(test *Test) (*Test, error) {
 	inserted := s.db.Create(test)
 	if inserted.Error != nil {
 
-		// 		s.logger.Warnf("failed to insert user: %v", err)
+		//s.logger.Warn().Err(err).Msg("failed to insert user")
 		return nil, ErrInsertFailed
 	}
 

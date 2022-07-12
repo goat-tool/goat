@@ -21,12 +21,4 @@ func (c *Core) newServices() {
 		User:   userService,
 		Test:   testService,
 	}
-
-	// healthService := health.NewService(c.Log, &c.state)
-	// userService := user.NewService(c.Log, user.NewStore(c.Log, c.Config, c.Database))
-
-	// c.Services = &services.Services{
-	// 	Health: healthService,
-	// 	User:   userService,
-	// }
 }

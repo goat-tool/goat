@@ -28,26 +28,9 @@ func (c *Core) NewDatabase() {
 	} else {
 		c.Log.Info().Msg("DB OK")
 	}
-	//Todo put automigrate into a cli command like here https://github.com/MystixCode/api-example/blob/master/cmd/migrate.go
+
 	//db.AutoMigrate(&test.Test{})
 	c.Database = db
-
-	// old stuff *******************************************************************************
-	// ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-
-	// err = client.Connect(ctx)
-	// if err != nil {
-	// 	logger.Fatalf("failed to connect ot database: %v", err)
-	// }
-
-	// err = client.Ping(ctx, readpref.Primary())
-	// if err != nil {
-	// 	logger.Fatalf("connection to database server failed: %v", err)
-	// } else {
-	// 	logger.Debugln("successfully pinged the database server")
-	// }
-
-	// c.Database = client
 
 	// c.registerShutdownFunc(func() error {
 	// 	err = client.Disconnect(ctx)

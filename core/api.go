@@ -14,10 +14,4 @@ func (c *Core) newApi() {
 
 	c.api.Setup(c.router)
 
-	// c.Api = &api.Api{
-	// 	Health: api.NewHealthEndpoint(c.Services.Health, c.Log),
-	// 	User:   api.NewUserEndpoint(c.Log, c.Translator, c.Validate, c.Services.User),
-	// }
-
-	// c.Api.Setup(c.Router)
 }

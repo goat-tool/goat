@@ -10,7 +10,7 @@ func (c *Core) newRouter() {
 
 	middlewares := setupMiddleware(c.router, c)
 
-	// // register middlewares
+	// register middlewares
 	middlewares = loggingMiddleware(middlewares, c)
 
 	c.handler = middlewares

@@ -26,6 +26,7 @@ type TestEndpoint struct {
 func NewTestEndpoint(service *test.Service) *TestEndpoint {
 	return &TestEndpoint{
 		service: service,
+		//Todo logger log with prefix
 	}
 }
 

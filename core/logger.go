@@ -3,7 +3,6 @@ package core
 import (
 	"goat/log"
 
-	//"fmt"
 	"os"
 )
 

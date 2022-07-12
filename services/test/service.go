@@ -8,11 +8,6 @@ import (
 	"gorm.io/gorm"
 )
 
-// "time"
-
-// "go.mongodb.org/mongo-driver/bson/primitive"
-// "golang.org/x/crypto/bcrypt"
-
 type Service struct {
 	Log   *log.Logger
 	Store *Store
@@ -25,13 +20,6 @@ func NewService(log *log.Logger, conf *conf.Config, db *gorm.DB) *Service {
 		Store: NewStore(log, conf, db),
 	}
 }
-
-// func NewService(logger log.Logger, store *Store) *Service {
-// 	return &Service{
-// 		logger: logger.WithPrefix("service.test"),
-// 		Store:  store,
-// 	}
-// }
 
 func (s *Service) Create(input TestInput) (*Test, error) {
 	var t Test
