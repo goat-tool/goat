@@ -4,13 +4,13 @@ import (
 	"net/http"
 )
 
-func (c *Core) setupRouter() {
+func (c *Core) newRouter() {
 
 	c.Log.Info().Msg("Setup router")
 
 	middlewares := setupMiddleware(c.router, c)
 
-	// // register middlewares
+	// register middlewares
 	middlewares = loggingMiddleware(middlewares, c)
 
 	c.handler = middlewares

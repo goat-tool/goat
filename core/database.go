@@ -1,63 +1,36 @@
 package core
 
-// "context"
-// "time"
-
-// "go.mongodb.org/mongo-driver/mongo"
-// "go.mongodb.org/mongo-driver/mongo/options"
-// "go.mongodb.org/mongo-driver/mongo/readpref"
-
 import (
-	"database/sql"
+	//"github.com/tutorials/go/crud/pkg/models"
 	"fmt"
 	"strconv"
 
-	_ "github.com/lib/pq"
+	"gorm.io/driver/postgres"
+	"gorm.io/gorm"
+	"gorm.io/gorm/logger"
 )
 
-func (c *Core) setupDatabase() {
+func (c *Core) NewDatabase() {
 	c.Log.Info().Msg("Setup database")
+	// gorm *******************************************************************************
+	//dbURL := "postgres://pg:pass@localhost:5432/crud"
 
 	// convert string to integer
-	portInt, err := strconv.Atoi(c.conf.Database.Port)
+	portInt, err := strconv.Atoi(c.Conf.Database.Port)
 	if err != nil {
 		fmt.Println("String to int error:", err)
 	}
+	dbURL := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.Conf.Database.Host, portInt, c.Conf.Database.Username, c.Conf.Database.Password, c.Conf.Database.Name)
 
-	psqlInfo := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.conf.Database.Host, portInt, c.conf.Database.Username, c.conf.Database.Password, c.conf.Database.Name)
-	db, err := sql.Open("postgres", psqlInfo)
+	db, err := gorm.Open(postgres.Open(dbURL), &gorm.Config{Logger: logger.Default.LogMode(logger.Silent)})
 	if err != nil {
-		c.Log.Panic().Err(err).Msg("Setup database connection error")
-		//panic(err)
-	}
-	defer db.Close()
-
-	err = db.Ping()
-	if err != nil {
-		c.Log.Error().Err(err).Msg("Setup database ping error")
+		c.Log.Fatal().Err(err).Msg("Error opening db")
 	} else {
-		c.Log.Info().Msg("Setup database done")
+		c.Log.Info().Msg("DB OK")
 	}
-	// client, err := mongo.NewClient(options.Client().ApplyURI(c.Config.Database.URI()))
-	// if err != nil {
-	// 	logger.Fatalf("failed to create database client: %v", err)
-	// }
 
-	// ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-
-	// err = client.Connect(ctx)
-	// if err != nil {
-	// 	logger.Fatalf("failed to connect ot database: %v", err)
-	// }
-
-	// err = client.Ping(ctx, readpref.Primary())
-	// if err != nil {
-	// 	logger.Fatalf("connection to database server failed: %v", err)
-	// } else {
-	// 	logger.Debugln("successfully pinged the database server")
-	// }
-
-	// c.Database = client
+	//db.AutoMigrate(&test.Test{})
+	c.Database = db
 
 	// c.registerShutdownFunc(func() error {
 	// 	err = client.Disconnect(ctx)

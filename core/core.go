@@ -14,11 +14,14 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
+	// "github.com/jackc/pgx/v4/pgxpool"
+	"gorm.io/gorm"
 )
 
 type Core struct {
 	Log        *log.Logger
-	conf       *conf.Config
+	Conf       *conf.Config
+	Database   *gorm.DB
 	httpServer *http.Server
 	router     *mux.Router
 	handler    http.Handler
@@ -44,7 +47,7 @@ func New(cfgFile string, isDebug bool, logFile string) (*Core, error) {
 
 	c.state = health.StateStarting
 	c.router = mux.NewRouter()
-
+	//c.Database = c.newDatabase()
 	ctx, cancel := context.WithCancel(context.Background())
 	c.wg = &sync.WaitGroup{}
 	c.context = globalContext{
@@ -52,14 +55,14 @@ func New(cfgFile string, isDebug bool, logFile string) (*Core, error) {
 		ctx:    ctx,
 	}
 
-	c.setupConf(cfgFile)
-	c.setupLog(isDebug, logFile)
+	c.newConf(cfgFile)
+	c.newLog(isDebug, logFile)
 	// c.setupTranslator()
 	// c.setupValidator()
-	c.setupDatabase()
-	c.setupServices()
-	c.setupApi()
-	c.setupRouter()
+	c.NewDatabase()
+	c.newServices()
+	c.newApi()
+	c.newRouter()
 
 	c.Log.Info().Msg("New core done")
 	c.state = health.StateRunning
@@ -72,7 +75,7 @@ func (c *Core) StartServer() {
 	c.Log.Info().Msg("Starting server")
 
 	c.httpServer = &http.Server{
-		Addr:         c.conf.Server.URL(),
+		Addr:         c.Conf.Server.URL(),
 		Handler:      c.handler,
 		WriteTimeout: 15 * time.Second,
 		ReadTimeout:  15 * time.Second,
