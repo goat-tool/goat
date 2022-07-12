@@ -36,8 +36,6 @@ func (s *Store) Create(test *Test) (*Test, error) {
 		return nil, ErrInsertFailed
 	}
 
-	// 	user.ID = inserted.InsertedID.(primitive.ObjectID)
-
 	return test, nil
 }
 
@@ -53,24 +51,6 @@ func (s *Store) GetAll() ([]*Test, error) {
 	}
 
 	return tests, nil
-
-	// 	cursor, err := s.collection.Find(ctx, bson.M{})
-	// 	if err != nil {
-	// 		s.logger.Warnf("failed to find users: %v", err)
-	// 		return nil, ErrFindFailed
-	// 	}
-
-	// 	err = cursor.All(ctx, &users)
-	// 	if err != nil {
-	// 		s.logger.Warnf("failed to load users: %v", err)
-	// 		return nil, ErrFindFailed
-	// 	}
-
-	// 	if len(users) == 0 {
-	// 		return nil, ErrNotFound
-	// 	}
-
-	// return &tests, nil
 }
 
 func (s *Store) GetByID(id string) (*Test, error) {
@@ -104,37 +84,24 @@ func (s *Store) Update(id string, test *Test) (*Test, error) {
 		s.log.Error().Err(ErrUpdatedFailed).Str("id", id).Msg("")
 		return nil, ErrUpdatedFailed
 	}
-	// 	_, err := s.collection.UpdateOne(ctx, bson.M{"_id": user.ID}, bson.M{"$set": user})
-	// 	if err != nil {
-	// 		switch err {
-	// 		case mongo.ErrNoDocuments:
-	// 			return nil, ErrNotFound
-	// 		default:
-	// 			s.logger.Warnf("error while updating user: %v", err)
-	// 			return nil, ErrUpdatedFailed
-	// 		}
-	// 	}
 
 	return test, nil
 }
 
-// func (s *Store) Delete(id primitive.ObjectID) error {
-// 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
-// 	defer cancel()
+func (s *Store) Delete(id string) error {
+	// ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+	// defer cancel()
+	var test *Test
 
-// 	_, err := s.collection.DeleteOne(ctx, bson.M{"_id": id})
-// 	if err != nil {
-// 		switch err {
-// 		case mongo.ErrNoDocuments:
-// 			return ErrNotFound
-// 		default:
-// 			s.logger.Warnf("error while deleting user: %v", err)
-// 			return ErrDeleteFailed
-// 		}
-// 	}
+	result := s.db.Delete(&test, id)
+	if result.Error != nil {
+		return ErrDeleteFailed
+	} else if result.RowsAffected < 1 {
+		return ErrNotFound
+	}
 
-// 	return nil
-// }
+	return nil
+}
 
 // func (s *Store) getByKeyValue(key string, value interface{}) (*User, error) {
 // 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)

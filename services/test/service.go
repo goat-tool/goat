@@ -66,11 +66,7 @@ func (s *Service) Update(id string, input *TestInput) (*Test, error) {
 		return nil, err
 	}
 
-	// 	//TODO validation
-	// 	if input.Password != "" {
-	// 		return nil, ErrPasswordChangeNotAllowed
-	// 	}
-
+	//TODO validation
 	if input.TestName != "" {
 		u.TestName = input.TestName
 	}
@@ -79,32 +75,15 @@ func (s *Service) Update(id string, input *TestInput) (*Test, error) {
 		u.TestValue = input.TestValue
 	}
 
-	// 	if input.Email != "" {
-	// 		u.Email = input.Email
-	// 	}
-
-	// 	if input.FirstName != "" {
-	// 		u.FirstName = input.FirstName
-	// 	}
-
-	// 	if input.LastName != "" {
-	// 		u.LastName = input.LastName
-	// 	}
-
 	u.UpdatedAt = time.Now().Unix()
 
 	return s.Store.Update(id, u)
 }
 
-// func (s *Service) Delete(id string) error {
-// 	idObj, err := primitive.ObjectIDFromHex(id)
-// 	if err != nil {
-// 		s.logger.Debugf("failed to parse test id: %v", err)
-// 		return ErrIdParseFailed
-// 	}
+func (s *Service) Delete(id string) error {
 
-// 	return s.Store.Delete(idObj)
-// }
+	return s.Store.Delete(id)
+}
 
 // func (s *Service) hashPassword(password string) (string, error) {
 // 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)

@@ -57,7 +57,7 @@ func (e *TestEndpoint) CreateTest(w http.ResponseWriter, r *http.Request) {
 
 	createdTest, err := e.service.Create(input)
 	if err != nil {
-		// TODO add error handling + respond
+		// TODO add log + respond
 		fmt.Println("error createdTest")
 	}
 
@@ -79,21 +79,6 @@ func (e *TestEndpoint) GetAllTests(w http.ResponseWriter, _ *http.Request) {
 	respond(w, http.StatusOK, "load all tests successfully", tests)
 }
 
-// func (e *TestEndpoint) GetAllTests(w http.ResponseWriter, _ *http.Request) {
-// 	tests, err := e.service.GetAll()
-// 	if err != nil {
-// 		switch err {
-// 		case test.ErrNotFound:
-// 			respond(w, e.logger, http.StatusNotFound, err.Error(), nil)
-// 		default:
-// 			respond(w, e.logger, http.StatusInternalServerError, err.Error(), nil)
-// 		}
-// 		return
-// 	}
-
-// 	respond(w, e.logger, http.StatusOK, "load all tests successfully", tests)
-// }
-
 func (e *TestEndpoint) GetTestById(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 
@@ -114,25 +99,6 @@ func (e *TestEndpoint) GetTestById(w http.ResponseWriter, r *http.Request) {
 
 	respond(w, http.StatusOK, "successfully found test", foundTest)
 }
-
-// func (e *TestEndpoint) GetTestById(w http.ResponseWriter, r *http.Request) {
-// 	id := mux.Vars(r)["id"]
-
-// 	foundTest, err := e.service.Store.GetByID(id)
-// 	if err != nil {
-// 		switch err {
-// 		case test.ErrIdParseFailed:
-// 			respond(w, e.logger, http.StatusBadRequest, err.Error(), nil)
-// 		case test.ErrNotFound:
-// 			respond(w, e.logger, http.StatusNotFound, err.Error(), nil)
-// 		default:
-// 			respond(w, e.logger, http.StatusInternalServerError, err.Error(), nil)
-// 		}
-// 		return
-// 	}
-
-// 	respond(w, e.logger, http.StatusOK, "successfully found test", foundTest)
-// }
 
 func (e *TestEndpoint) UpdateTest(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
@@ -168,21 +134,21 @@ func (e *TestEndpoint) UpdateTest(w http.ResponseWriter, r *http.Request) {
 	respond(w, http.StatusCreated, "test updated successfully", createdTest)
 }
 
-// func (e *TestEndpoint) DeleteTest(w http.ResponseWriter, r *http.Request) {
-// 	id := mux.Vars(r)["id"]
+func (e *TestEndpoint) DeleteTest(w http.ResponseWriter, r *http.Request) {
+	id := mux.Vars(r)["id"]
 
-// 	err := e.service.Delete(id)
-// 	if err != nil {
-// 		switch err {
-// 		case test.ErrIdParseFailed:
-// 			respond(w, e.logger, http.StatusBadRequest, err.Error(), nil)
-// 		case test.ErrNotFound:
-// 			respond(w, e.logger, http.StatusNotFound, err.Error(), nil)
-// 		default:
-// 			respond(w, e.logger, http.StatusInternalServerError, err.Error(), nil)
-// 		}
-// 		return
-// 	}
+	err := e.service.Delete(id)
+	if err != nil {
+		switch err {
+		case test.ErrIdParseFailed:
+			respond(w, http.StatusBadRequest, err.Error(), nil)
+		case test.ErrNotFound:
+			respond(w, http.StatusNotFound, err.Error(), nil)
+		default:
+			respond(w, http.StatusInternalServerError, err.Error(), nil)
+		}
+		return
+	}
 
-// 	respond(w, e.logger, http.StatusOK, "successfully deleted", nil)
-// }
+	respond(w, http.StatusOK, "successfully deleted", nil)
+}
