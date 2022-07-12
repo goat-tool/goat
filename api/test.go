@@ -39,7 +39,7 @@ func NewTestEndpoint(service *test.Service) *TestEndpoint {
 // 	}
 // }
 
-func (e *TestEndpoint) CreateTest(w http.ResponseWriter, r *http.Request) {
+func (e *TestEndpoint) Create(w http.ResponseWriter, r *http.Request) {
 	e.service.Log.Warn().Msg("TODO: CreateTest() in api/test.go")
 	var input test.TestInput
 
@@ -65,7 +65,7 @@ func (e *TestEndpoint) CreateTest(w http.ResponseWriter, r *http.Request) {
 	respond(w, http.StatusCreated, "test created successfully", createdTest)
 }
 
-func (e *TestEndpoint) GetAllTests(w http.ResponseWriter, _ *http.Request) {
+func (e *TestEndpoint) GetAll(w http.ResponseWriter, _ *http.Request) {
 	tests, err := e.service.GetAll()
 	if err != nil {
 		switch err {
@@ -80,7 +80,7 @@ func (e *TestEndpoint) GetAllTests(w http.ResponseWriter, _ *http.Request) {
 	respond(w, http.StatusOK, "load all tests successfully", tests)
 }
 
-func (e *TestEndpoint) GetTestById(w http.ResponseWriter, r *http.Request) {
+func (e *TestEndpoint) GetById(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 
 	//fmt.Println("TODO: services/test/test.go GetTestById()")
@@ -101,7 +101,7 @@ func (e *TestEndpoint) GetTestById(w http.ResponseWriter, r *http.Request) {
 	respond(w, http.StatusOK, "successfully found test", foundTest)
 }
 
-func (e *TestEndpoint) UpdateTest(w http.ResponseWriter, r *http.Request) {
+func (e *TestEndpoint) Update(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 	var input *test.TestInput
 	err := json.NewDecoder(r.Body).Decode(&input)
@@ -135,7 +135,7 @@ func (e *TestEndpoint) UpdateTest(w http.ResponseWriter, r *http.Request) {
 	respond(w, http.StatusCreated, "test updated successfully", createdTest)
 }
 
-func (e *TestEndpoint) DeleteTest(w http.ResponseWriter, r *http.Request) {
+func (e *TestEndpoint) Delete(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 
 	err := e.service.Delete(id)
