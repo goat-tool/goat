@@ -3,19 +3,19 @@ package api
 import (
 	"goat/services/health"
 
-	// "goat/log"
+	"goat/log"
 	"net/http"
 )
 
 type HealthEndpoint struct {
 	service *health.Service
-	// logger  log.Logger
+	log     *log.Logger
 }
 
-func NewHealthEndpoint(service *health.Service) *HealthEndpoint {
+func NewHealthEndpoint(log *log.Logger, service *health.Service) *HealthEndpoint {
 	return &HealthEndpoint{
 		service: service,
-		// logger:  logger.WithPrefix("api.health"),
+		log:     log,
 	}
 }
 
@@ -34,5 +34,5 @@ func (e *HealthEndpoint) GetHealth(w http.ResponseWriter, _ *http.Request) {
 		status = http.StatusInternalServerError
 	}
 	// 	respond(w, e.logger, status, "", healthResponse)
-	respond(w, status, "", healthResponse)
+	respond(w, e.log, status, "", healthResponse)
 }

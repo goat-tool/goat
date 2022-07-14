@@ -6,9 +6,10 @@ import (
 
 	"encoding/json"
 	"fmt"
+
 	"net/http"
 
-	// "goat/log"
+	"goat/log"
 	"goat/services/user"
 
 	"github.com/gorilla/mux"
@@ -21,12 +22,13 @@ type UserEndpoint struct {
 	// translator *ut.UniversalTranslator
 	// validate   *validator.Validate
 	service *user.Service
+	log     *log.Logger
 }
 
-func NewUserEndpoint(service *user.Service) *UserEndpoint {
+func NewUserEndpoint(log *log.Logger, service *user.Service) *UserEndpoint {
 	return &UserEndpoint{
 		service: service,
-		//Todo logger log with prefix
+		log:     log,
 	}
 }
 
@@ -45,7 +47,7 @@ func (e *UserEndpoint) Create(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
-		respond(w, http.StatusBadRequest, "invalid body", nil)
+		respond(w, e.log, http.StatusBadRequest, "invalid body", nil)
 		return
 	}
 	//fmt.Println("input", input)
@@ -62,7 +64,7 @@ func (e *UserEndpoint) Create(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("error createdUser")
 	}
 
-	respond(w, http.StatusCreated, "test created successfully", createdUser)
+	respond(w, e.log, http.StatusCreated, "test created successfully", createdUser)
 }
 
 func (e *UserEndpoint) GetAll(w http.ResponseWriter, _ *http.Request) {
@@ -70,14 +72,14 @@ func (e *UserEndpoint) GetAll(w http.ResponseWriter, _ *http.Request) {
 	if err != nil {
 		switch err {
 		case user.ErrNotFound:
-			respond(w, http.StatusNotFound, err.Error(), nil)
+			respond(w, e.log, http.StatusNotFound, err.Error(), nil)
 		default:
-			respond(w, http.StatusInternalServerError, err.Error(), nil)
+			respond(w, e.log, http.StatusInternalServerError, err.Error(), nil)
 		}
 		return
 	}
 
-	respond(w, http.StatusOK, "load all users successfully", users)
+	respond(w, e.log, http.StatusOK, "load all users successfully", users)
 }
 
 func (e *UserEndpoint) GetById(w http.ResponseWriter, r *http.Request) {
@@ -89,16 +91,16 @@ func (e *UserEndpoint) GetById(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		switch err {
 		case user.ErrIdParseFailed:
-			respond(w, http.StatusBadRequest, err.Error(), nil)
+			respond(w, e.log, http.StatusBadRequest, err.Error(), nil)
 		case user.ErrNotFound:
-			respond(w, http.StatusNotFound, err.Error(), nil)
+			respond(w, e.log, http.StatusNotFound, err.Error(), nil)
 		default:
-			respond(w, http.StatusInternalServerError, err.Error(), nil)
+			respond(w, e.log, http.StatusInternalServerError, err.Error(), nil)
 		}
 		return
 	}
 
-	respond(w, http.StatusOK, "successfully found user", foundUser)
+	respond(w, e.log, http.StatusOK, "successfully found user", foundUser)
 }
 
 func (e *UserEndpoint) Update(w http.ResponseWriter, r *http.Request) {
@@ -106,7 +108,7 @@ func (e *UserEndpoint) Update(w http.ResponseWriter, r *http.Request) {
 	var input *user.UserInput
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
-		respond(w, http.StatusBadRequest, "invalid body", nil)
+		respond(w, e.log, http.StatusBadRequest, "invalid body", nil)
 		return
 	}
 
@@ -121,18 +123,18 @@ func (e *UserEndpoint) Update(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		switch err {
 		case user.ErrIdParseFailed:
-			respond(w, http.StatusBadRequest, err.Error(), nil)
+			respond(w, e.log, http.StatusBadRequest, err.Error(), nil)
 		case user.ErrNotFound:
-			respond(w, http.StatusNotFound, err.Error(), nil)
+			respond(w, e.log, http.StatusNotFound, err.Error(), nil)
 		// case user.ErrPasswordChangeNotAllowed:
 		// 	respond(w, http.StatusBadRequest, err.Error(), nil)
 		default:
-			respond(w, http.StatusInternalServerError, err.Error(), nil)
+			respond(w, e.log, http.StatusInternalServerError, err.Error(), nil)
 		}
 		return
 	}
 
-	respond(w, http.StatusCreated, "user updated successfully", createdUser)
+	respond(w, e.log, http.StatusCreated, "user updated successfully", createdUser)
 }
 
 func (e *UserEndpoint) Delete(w http.ResponseWriter, r *http.Request) {
@@ -142,14 +144,14 @@ func (e *UserEndpoint) Delete(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		switch err {
 		case user.ErrIdParseFailed:
-			respond(w, http.StatusBadRequest, err.Error(), nil)
+			respond(w, e.log, http.StatusBadRequest, err.Error(), nil)
 		case user.ErrNotFound:
-			respond(w, http.StatusNotFound, err.Error(), nil)
+			respond(w, e.log, http.StatusNotFound, err.Error(), nil)
 		default:
-			respond(w, http.StatusInternalServerError, err.Error(), nil)
+			respond(w, e.log, http.StatusInternalServerError, err.Error(), nil)
 		}
 		return
 	}
 
-	respond(w, http.StatusOK, "successfully deleted", nil)
+	respond(w, e.log, http.StatusOK, "successfully deleted", nil)
 }

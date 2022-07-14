@@ -8,7 +8,7 @@ import (
 	"fmt"
 	"net/http"
 
-	// "goat/log"
+	"goat/log"
 	"goat/services/test"
 
 	"github.com/gorilla/mux"
@@ -17,15 +17,16 @@ import (
 )
 
 type TestEndpoint struct {
-	// logger     log.Logger
+	log *log.Logger
 	// translator *ut.UniversalTranslator
 	// validate   *validator.Validate
 	service *test.Service
 }
 
-func NewTestEndpoint(service *test.Service) *TestEndpoint {
+func NewTestEndpoint(log *log.Logger, service *test.Service) *TestEndpoint {
 	return &TestEndpoint{
 		service: service,
+		log:     log,
 		//Todo logger log with prefix
 	}
 }
@@ -45,7 +46,7 @@ func (e *TestEndpoint) Create(w http.ResponseWriter, r *http.Request) {
 
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
-		respond(w, http.StatusBadRequest, "invalid body", nil)
+		respond(w, e.log, http.StatusBadRequest, "invalid body", nil)
 		return
 	}
 	//fmt.Println("input", input)
@@ -62,7 +63,7 @@ func (e *TestEndpoint) Create(w http.ResponseWriter, r *http.Request) {
 		fmt.Println("error createdTest")
 	}
 
-	respond(w, http.StatusCreated, "test created successfully", createdTest)
+	respond(w, e.log, http.StatusCreated, "test created successfully", createdTest)
 }
 
 func (e *TestEndpoint) GetAll(w http.ResponseWriter, _ *http.Request) {
@@ -70,14 +71,14 @@ func (e *TestEndpoint) GetAll(w http.ResponseWriter, _ *http.Request) {
 	if err != nil {
 		switch err {
 		case test.ErrNotFound:
-			respond(w, http.StatusNotFound, err.Error(), nil)
+			respond(w, e.log, http.StatusNotFound, err.Error(), nil)
 		default:
-			respond(w, http.StatusInternalServerError, err.Error(), nil)
+			respond(w, e.log, http.StatusInternalServerError, err.Error(), nil)
 		}
 		return
 	}
 
-	respond(w, http.StatusOK, "load all tests successfully", tests)
+	respond(w, e.log, http.StatusOK, "load all tests successfully", tests)
 }
 
 func (e *TestEndpoint) GetById(w http.ResponseWriter, r *http.Request) {
@@ -89,16 +90,16 @@ func (e *TestEndpoint) GetById(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		switch err {
 		case test.ErrIdParseFailed:
-			respond(w, http.StatusBadRequest, err.Error(), nil)
+			respond(w, e.log, http.StatusBadRequest, err.Error(), nil)
 		case test.ErrNotFound:
-			respond(w, http.StatusNotFound, err.Error(), nil)
+			respond(w, e.log, http.StatusNotFound, err.Error(), nil)
 		default:
-			respond(w, http.StatusInternalServerError, err.Error(), nil)
+			respond(w, e.log, http.StatusInternalServerError, err.Error(), nil)
 		}
 		return
 	}
 
-	respond(w, http.StatusOK, "successfully found test", foundTest)
+	respond(w, e.log, http.StatusOK, "successfully found test", foundTest)
 }
 
 func (e *TestEndpoint) Update(w http.ResponseWriter, r *http.Request) {
@@ -106,7 +107,7 @@ func (e *TestEndpoint) Update(w http.ResponseWriter, r *http.Request) {
 	var input *test.TestInput
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
-		respond(w, http.StatusBadRequest, "invalid body", nil)
+		respond(w, e.log, http.StatusBadRequest, "invalid body", nil)
 		return
 	}
 
@@ -121,18 +122,18 @@ func (e *TestEndpoint) Update(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		switch err {
 		case test.ErrIdParseFailed:
-			respond(w, http.StatusBadRequest, err.Error(), nil)
+			respond(w, e.log, http.StatusBadRequest, err.Error(), nil)
 		case test.ErrNotFound:
-			respond(w, http.StatusNotFound, err.Error(), nil)
+			respond(w, e.log, http.StatusNotFound, err.Error(), nil)
 		// case test.ErrPasswordChangeNotAllowed:
 		// 	respond(w, http.StatusBadRequest, err.Error(), nil)
 		default:
-			respond(w, http.StatusInternalServerError, err.Error(), nil)
+			respond(w, e.log, http.StatusInternalServerError, err.Error(), nil)
 		}
 		return
 	}
 
-	respond(w, http.StatusCreated, "test updated successfully", createdTest)
+	respond(w, e.log, http.StatusCreated, "test updated successfully", createdTest)
 }
 
 func (e *TestEndpoint) Delete(w http.ResponseWriter, r *http.Request) {
@@ -142,14 +143,14 @@ func (e *TestEndpoint) Delete(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		switch err {
 		case test.ErrIdParseFailed:
-			respond(w, http.StatusBadRequest, err.Error(), nil)
+			respond(w, e.log, http.StatusBadRequest, err.Error(), nil)
 		case test.ErrNotFound:
-			respond(w, http.StatusNotFound, err.Error(), nil)
+			respond(w, e.log, http.StatusNotFound, err.Error(), nil)
 		default:
-			respond(w, http.StatusInternalServerError, err.Error(), nil)
+			respond(w, e.log, http.StatusInternalServerError, err.Error(), nil)
 		}
 		return
 	}
 
-	respond(w, http.StatusOK, "successfully deleted", nil)
+	respond(w, e.log, http.StatusOK, "successfully deleted", nil)
 }

@@ -2,6 +2,7 @@ package api
 
 import (
 	"encoding/json"
+	"goat/log"
 	"net/http"
 
 	// ut "github.com/go-playground/universal-translator"
@@ -45,7 +46,7 @@ func (a *Api) Setup(router *mux.Router) {
 
 }
 
-func respond(w http.ResponseWriter, status int, message string, data interface{}) {
+func respond(w http.ResponseWriter, log *log.Logger, status int, message string, data interface{}) {
 	body := Body{}
 	body.Status = status
 	w.WriteHeader(status)
@@ -59,8 +60,8 @@ func respond(w http.ResponseWriter, status int, message string, data interface{}
 
 	bodyString, err := json.Marshal(body)
 	if err != nil {
-		// logger.Errorf("fail to parse response body json: %v", err)
-		respond(w, http.StatusInternalServerError, "internal error", nil)
+		log.Error().Err(err).Msg("fail to parse response body")
+		respond(w, log, http.StatusInternalServerError, "internal error", nil)
 		return
 	}
 
@@ -72,10 +73,13 @@ func respond(w http.ResponseWriter, status int, message string, data interface{}
 
 	// fmt.Println("RESPONSE BODY")
 	// fmt.Println(string(bodyString))
+	log.Debug().RawJSON("body", bodyString).Msg("Response")
 
 	_, err = w.Write(bodyString)
 	if err != nil {
 		// logger.Errorf("fail to write response body: %v", err)
+		log.Error().Err(err).Msg("fail to write response body")
+		respond(w, log, http.StatusInternalServerError, "internal error", nil)
 		return
 	}
 }

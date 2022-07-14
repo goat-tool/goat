@@ -33,15 +33,15 @@ docker-compose -f docker-compose.dev.yml up --build
 ## migrate db
 
 ```bash
-#in config.yaml change database.host to localhost
-#in docker-compose.yml add port mapping to postgres
+# in config.yaml change database.host to localhost
+
+# in docker-compose.yml add port mapping to postgres
 # ports:
     #   - 5432:5432
 
-# Build 
-docker-compose build
-# Start Database
-docker-compose up -d postgres
+# Build and start Database
+docker-compose up --build -d postgres
+
 # Run migrate cli command
 go run goat migrate
 ```
