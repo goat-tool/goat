@@ -26,8 +26,13 @@ func (s *Service) Create(input TestInput) (*Test, error) {
 	// s.Log.Warn().Msg("Todo: Create() in services/test/service.go")
 
 	//TODO validation
-	t.TestName = input.TestName
-	t.TestValue = input.TestValue
+	if input.TestName != "" {
+		t.TestName = input.TestName
+	}
+
+	if input.TestValue != "" {
+		t.TestValue = input.TestValue
+	}
 
 	timeNow := time.Now().Unix()
 	t.CreatedAt = timeNow
@@ -49,46 +54,26 @@ func (s *Service) GetAll() ([]*Test, error) {
 }
 
 func (s *Service) Update(id string, input *TestInput) (*Test, error) {
-	u, err := s.Store.GetByID(id)
+	t, err := s.Store.GetByID(id)
 	if err != nil {
 		return nil, err
 	}
 
 	//TODO validation
 	if input.TestName != "" {
-		u.TestName = input.TestName
+		t.TestName = input.TestName
 	}
 
 	if input.TestValue != "" {
-		u.TestValue = input.TestValue
+		t.TestValue = input.TestValue
 	}
 
-	u.UpdatedAt = time.Now().Unix()
+	t.UpdatedAt = time.Now().Unix()
 
-	return s.Store.Update(id, u)
+	return s.Store.Update(id, t)
 }
 
 func (s *Service) Delete(id string) error {
 
 	return s.Store.Delete(id)
 }
-
-// func (s *Service) hashPassword(password string) (string, error) {
-// 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), bcrypt.DefaultCost)
-// 	if err != nil {
-// 		//TODO better error handling
-// 		return "", err
-// 	}
-
-// 	return string(bytes), nil
-// }
-
-// func (s *Service) verifyPassword(hash string, password string) bool {
-// 	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
-// 	if err != nil {
-// 		//TODO add logging
-// 		return false
-// 	}
-
-// 	return true
-// }

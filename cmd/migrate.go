@@ -6,6 +6,7 @@ import (
 
 	"goat/core"
 	"goat/services/test"
+	"goat/services/user"
 
 	"github.com/spf13/cobra"
 )
@@ -33,6 +34,7 @@ func migrate(cmd *cobra.Command, args []string) {
 	appCore.NewDatabase()
 	appCore.Database.AutoMigrate(
 		test.Test{},
+		user.User{},
 	)
 
 }

@@ -29,19 +29,19 @@ func (a *Api) Setup(router *mux.Router) {
 	// Health
 	v1.HandleFunc("/health", a.Health.GetHealth).Methods(http.MethodGet)
 
-	// User
-	// v1.HandleFunc("/users", a.User.CreateUser).Methods(http.MethodPost)
-	v1.HandleFunc("/users", a.User.GetAllUsers).Methods(http.MethodGet)
-	v1.HandleFunc("/users/{id}", a.User.GetUserById).Methods(http.MethodGet)
-	// v1.HandleFunc("/users/{id}", a.User.UpdateUser).Methods(http.MethodPut)
-	// v1.HandleFunc("/users/{id}", a.User.DeleteUser).Methods(http.MethodDelete)
-
 	// Test
-	v1.HandleFunc("/test", a.Test.Create).Methods(http.MethodPost)
+	v1.HandleFunc("/tests", a.Test.Create).Methods(http.MethodPost)
 	v1.HandleFunc("/tests", a.Test.GetAll).Methods(http.MethodGet)
 	v1.HandleFunc("/tests/{id}", a.Test.GetById).Methods(http.MethodGet)
 	v1.HandleFunc("/tests/{id}", a.Test.Update).Methods(http.MethodPut)
 	v1.HandleFunc("/tests/{id}", a.Test.Delete).Methods(http.MethodDelete)
+
+	// User
+	v1.HandleFunc("/users", a.User.Create).Methods(http.MethodPost)
+	v1.HandleFunc("/users", a.User.GetAll).Methods(http.MethodGet)
+	v1.HandleFunc("/users/{id}", a.User.GetById).Methods(http.MethodGet)
+	v1.HandleFunc("/users/{id}", a.User.Update).Methods(http.MethodPut)
+	v1.HandleFunc("/users/{id}", a.User.Delete).Methods(http.MethodDelete)
 
 }
 

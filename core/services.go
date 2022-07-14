@@ -12,7 +12,7 @@ func (c *Core) newServices() {
 	c.Log.Info().Msg("Setup services")
 
 	healthService := health.NewService(&c.state)
-	userService := user.NewService()
+	userService := user.NewService(c.Log, c.Conf, c.Database)
 	testService := test.NewService(c.Log, c.Conf, c.Database)
 
 	c.services = &services.Services{
