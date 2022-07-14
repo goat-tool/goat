@@ -59,7 +59,7 @@ func (s *Store) GetByID(id string) (*User, error) {
 
 	result := s.db.First(&user, id)
 	if result.Error != nil {
-		s.log.Error().Err(ErrNotFound).Str("id", id).Msg("")
+		//s.log.Error().Err(ErrNotFound).Str("id", id).Msg("")
 		return nil, ErrNotFound
 	}
 
@@ -81,7 +81,7 @@ func (s *Store) Update(id string, user *User) (*User, error) {
 
 	result := s.db.Save(&user)
 	if result.Error != nil {
-		s.log.Error().Err(ErrUpdatedFailed).Str("id", id).Msg("")
+		//s.log.Error().Err(ErrUpdatedFailed).Str("id", id).Msg("")
 		return nil, ErrUpdatedFailed
 	}
 
@@ -95,10 +95,10 @@ func (s *Store) Delete(id string) error {
 
 	result := s.db.Delete(&user, id)
 	if result.Error != nil {
-		s.log.Error().Err(ErrDeleteFailed).Str("id", id).Msg("")
+		//s.log.Error().Err(ErrDeleteFailed).Str("id", id).Msg("")
 		return ErrDeleteFailed
 	} else if result.RowsAffected < 1 {
-		s.log.Error().Err(ErrNotFound).Str("id", id).Msg("")
+		//s.log.Error().Err(ErrNotFound).Str("id", id).Msg("")
 		return ErrNotFound
 
 	}
