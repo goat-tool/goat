@@ -125,7 +125,7 @@ func (c *Core) Shutdown(ctx context.Context) error {
 	for _, fn := range c.shutdownFuncs {
 		funcErr := fn()
 		if funcErr != nil {
-			c.Log.Error().Msgf("Shutdown func failed with error", funcErr)
+			c.Log.Error().Err(funcErr).Msg("Shutdown func failed")
 		}
 	}
 

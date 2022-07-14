@@ -58,20 +58,24 @@ func respond(w http.ResponseWriter, log *log.Logger, status int, message string,
 		body.Data = data
 	}
 
-	bodyString, err := json.Marshal(body)
+	bodyByte, err := json.Marshal(body)
 	if err != nil {
 		log.Error().Err(err).Msg("fail to parse response body")
 		respond(w, log, http.StatusInternalServerError, "internal error", nil)
 		return
 	}
 
-	// TODO: properly log response header + body
-
-	log.Debug().RawJSON("body", bodyString).Msg("Response")
-
-	_, err = w.Write(bodyString)
+	headerByte, err := json.Marshal(w.Header())
 	if err != nil {
-		// logger.Errorf("fail to write response body: %v", err)
+		log.Error().Err(err).Msg("fail to parse response header")
+		respond(w, log, http.StatusInternalServerError, "internal error", nil)
+		return
+	}
+
+	log.Debug().RawJSON("header", headerByte).RawJSON("body", bodyByte).Msg("Response")
+
+	_, err = w.Write(bodyByte)
+	if err != nil {
 		log.Error().Err(err).Msg("fail to write response body")
 		respond(w, log, http.StatusInternalServerError, "internal error", nil)
 		return

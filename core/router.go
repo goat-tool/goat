@@ -1,6 +1,7 @@
 package core
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -35,8 +36,10 @@ func jsonMiddleware(h http.Handler) http.Handler {
 
 func loggingMiddleware(h http.Handler, c *Core) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		headerByte, _ := json.Marshal(r.Header)
+		// bodyByte, _ := json.Marshal(r.Body)
 
-		//c.Log.Debug().Str("HOST", r.Host).Str("METHOD", r.Method).Str("URL", r.URL.String()).Str("HEADERS", fmt.Sprint(r.Header)).Msgf("sdf", r.Body)
+		// headerString := string(headerByte)
 		c.Log.Debug().
 			//Str("agent", r.UserAgent()).
 			Str("referer", r.Referer()).
@@ -44,13 +47,10 @@ func loggingMiddleware(h http.Handler, c *Core) http.Handler {
 			Str("remote_addr", r.RemoteAddr).
 			Str("method", r.Method).
 			Str("url", r.URL.String()).
-			//Str("headers", fmt.Sprint(r.Header)).
-			//Str("body", fmt.Sprint(r.Body)).
+			RawJSON("headers", headerByte).
+			//RawJSON("body", bodyByte).
 			Msg("Request")
 
-		// headerByte, _ := json.Marshal(r.Header)
-		// headerString := string(headerByte)
-		// c.Log.Debug().Str("", string(bs)).Msg("Header")
 		//fmt.Println(headerString)
 
 		h.ServeHTTP(w, r)
