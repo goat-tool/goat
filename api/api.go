@@ -25,7 +25,7 @@ type Body struct {
 // type ValidationError map[string]string
 // type ValidationErrors []ValidationError
 
-func (a *Api) Setup(router *mux.Router) {
+func (a *Api) New(router *mux.Router) {
 	v1 := router.PathPrefix("/v1").Subrouter()
 	// Health
 	v1.HandleFunc("/health", a.Health.GetHealth).Methods(http.MethodGet)
@@ -65,14 +65,8 @@ func respond(w http.ResponseWriter, log *log.Logger, status int, message string,
 		return
 	}
 
-	// TODO: properly log response
+	// TODO: properly log response header + body
 
-	// fmt.Println(status)
-	// fmt.Println(message)
-	// fmt.Println(data)
-
-	// fmt.Println("RESPONSE BODY")
-	// fmt.Println(string(bodyString))
 	log.Debug().RawJSON("body", bodyString).Msg("Response")
 
 	_, err = w.Write(bodyString)

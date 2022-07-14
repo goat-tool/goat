@@ -23,11 +23,10 @@ var migrateCmd = &cobra.Command{
 }
 
 func migrate(cmd *cobra.Command, args []string) {
-	fmt.Println("Todo: migrate command")
 
 	appCore, err := core.New(cfgFile, isDebug, logFile)
 	if err != nil {
-		//Log.Debug().Err(err).Msg("initCore error")
+		fmt.Println("core.New() error")
 		os.Exit(2)
 	}
 

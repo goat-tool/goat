@@ -5,7 +5,6 @@ import (
 	// ut "github.com/go-playground/universal-translator"
 
 	"encoding/json"
-	"fmt"
 
 	"net/http"
 
@@ -42,7 +41,6 @@ func NewUserEndpoint(log *log.Logger, service *user.Service) *UserEndpoint {
 // }
 
 func (e *UserEndpoint) Create(w http.ResponseWriter, r *http.Request) {
-	//e.service.Log.Warn().Msg("TODO: CreateTest() in api/test.go")
 	var input user.UserInput
 
 	err := json.NewDecoder(r.Body).Decode(&input)
@@ -60,8 +58,7 @@ func (e *UserEndpoint) Create(w http.ResponseWriter, r *http.Request) {
 
 	createdUser, err := e.service.Create(input)
 	if err != nil {
-		// TODO add log + respond
-		fmt.Println("error createdUser")
+		respond(w, e.log, http.StatusBadRequest, "invalid body", nil)
 	}
 
 	respond(w, e.log, http.StatusCreated, "test created successfully", createdUser)
@@ -84,8 +81,6 @@ func (e *UserEndpoint) GetAll(w http.ResponseWriter, _ *http.Request) {
 
 func (e *UserEndpoint) GetById(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
-
-	//fmt.Println("TODO: services/test/test.go GetTestById()")
 
 	foundUser, err := e.service.Store.GetByID(id)
 	if err != nil {

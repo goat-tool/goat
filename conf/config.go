@@ -52,7 +52,7 @@ func New(cfgFile string) (*Config, error) {
 
 			//create dir if not exists
 			os.MkdirAll(filepath.Dir(cfgFile), os.ModePerm)
-			//Todo setDefaults here
+			//setDefaults
 			SetDefaults()
 			//Write defaults to config file
 			viper.WriteConfig()

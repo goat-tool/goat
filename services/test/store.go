@@ -14,7 +14,6 @@ type Store struct {
 }
 
 func NewStore(log *log.Logger, conf *conf.Config, db *gorm.DB) *Store {
-	// log.Warn().Msg("Todo: NewStore() in services/test/store.go")
 
 	//TODO: is the conf really needed here?
 	return &Store{
@@ -25,14 +24,11 @@ func NewStore(log *log.Logger, conf *conf.Config, db *gorm.DB) *Store {
 }
 
 func (s *Store) Create(test *Test) (*Test, error) {
-	// s.log.Warn().Msg("TODO Create() in services/test/store.go")
 	// 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 	// 	defer cancel()
 
 	inserted := s.db.Create(test)
 	if inserted.Error != nil {
-
-		//s.logger.Warn().Err(err).Msg("failed to insert user")
 		return nil, ErrInsertFailed
 	}
 
@@ -42,7 +38,6 @@ func (s *Store) Create(test *Test) (*Test, error) {
 func (s *Store) GetAll() ([]*Test, error) {
 	// 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 	// 	defer cancel()
-	// s.log.Warn().Msg("TODO GetAll() in services/test/store.go")
 	var tests []*Test
 
 	result := s.db.Find(&tests)
@@ -54,12 +49,10 @@ func (s *Store) GetAll() ([]*Test, error) {
 }
 
 func (s *Store) GetByID(id string) (*Test, error) {
-	// s.log.Warn().Msg("TODO GetByID in services/test/store.go")
 	var test *Test
 
 	result := s.db.First(&test, id)
 	if result.Error != nil {
-		// s.log.Error().Err(ErrNotFound).Str("id", id).Msg("")
 		return nil, ErrNotFound
 	}
 
@@ -73,7 +66,6 @@ func (s *Store) Update(id string, test *Test) (*Test, error) {
 
 	result := s.db.Save(&test)
 	if result.Error != nil {
-		// s.log.Error().Err(ErrUpdatedFailed).Str("id", id).Msg("")
 		return nil, ErrUpdatedFailed
 	}
 
@@ -87,10 +79,8 @@ func (s *Store) Delete(id string) error {
 
 	result := s.db.Delete(&test, id)
 	if result.Error != nil {
-		// s.log.Error().Err(ErrDeleteFailed).Str("id", id).Msg("")
 		return ErrDeleteFailed
 	} else if result.RowsAffected < 1 {
-		// s.log.Error().Err(ErrNotFound).Str("id", id).Msg("")
 		return ErrNotFound
 
 	}

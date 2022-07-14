@@ -2,12 +2,15 @@ package core
 
 import (
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func (c *Core) newRouter() {
 
 	c.Log.Info().Msg("Setup router")
 
+	c.router = mux.NewRouter()
 	middlewares := setupMiddleware(c.router, c)
 
 	// register middlewares

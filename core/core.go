@@ -46,8 +46,7 @@ func New(cfgFile string, isDebug bool, logFile string) (*Core, error) {
 	c := &Core{}
 
 	c.state = health.StateStarting
-	c.router = mux.NewRouter()
-	//c.Database = c.newDatabase()
+
 	ctx, cancel := context.WithCancel(context.Background())
 	c.wg = &sync.WaitGroup{}
 	c.context = globalContext{
@@ -55,14 +54,16 @@ func New(cfgFile string, isDebug bool, logFile string) (*Core, error) {
 		ctx:    ctx,
 	}
 
-	c.newConf(cfgFile)
-	c.newLog(isDebug, logFile)
-	// c.setupTranslator()
-	// c.setupValidator()
-	c.NewDatabase()
-	c.newServices()
-	c.newApi()
+	c.Conf = c.newConf(cfgFile)
+	c.Log = c.newLog(isDebug, logFile)
+	// c.translator = c.newTranslator()
+	// c.validator = c.newValidator()
+	c.Database = c.NewDatabase()
+	c.services = c.newServices()
+	// TODO: router with return
+	//c.router = c.newRouter()
 	c.newRouter()
+	c.api = c.newApi()
 
 	c.Log.Info().Msg("New core done")
 	c.state = health.StateRunning

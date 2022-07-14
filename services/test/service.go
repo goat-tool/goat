@@ -14,7 +14,6 @@ type Service struct {
 }
 
 func NewService(log *log.Logger, conf *conf.Config, db *gorm.DB) *Service {
-	// log.Warn().Msg("TODO: NewService() in services/test/service.go")
 	return &Service{
 		Log:   log,
 		Store: NewStore(log, conf, db),
@@ -23,7 +22,6 @@ func NewService(log *log.Logger, conf *conf.Config, db *gorm.DB) *Service {
 
 func (s *Service) Create(input TestInput) (*Test, error) {
 	var t Test
-	// s.Log.Warn().Msg("Todo: Create() in services/test/service.go")
 
 	//TODO validation
 	if input.TestName != "" {
@@ -47,7 +45,6 @@ func (s *Service) Create(input TestInput) (*Test, error) {
 }
 
 func (s *Service) GetAll() ([]*Test, error) {
-	//s.Log.Warn().Msg("TODO: GetAll() in services/test/service.go")
 
 	return s.Store.GetAll()
 

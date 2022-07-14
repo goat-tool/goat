@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func (c *Core) newLog(isDebug bool, logFile string) {
+func (c *Core) newLog(isDebug bool, logFile string) *log.Logger {
 
 	//fmt.Println("Input logfile: ", logFile)
 	//fmt.Println("Input isDebug: ", isDebug)
@@ -29,13 +29,11 @@ func (c *Core) newLog(isDebug bool, logFile string) {
 	if err != nil {
 		log.Error().Err(err).Msg("Setup log error")
 		os.Exit(2)
-	} else {
-		c.Log = log
-		c.Log.Info().Msg("Setup conf")
-		c.Log.Debug().Str("Host", c.Conf.Server.Host).Int("Port", c.Conf.Server.Port).Msg("Server")
-		c.Log.Debug().Str("File", c.Conf.Log.File).Bool("Debug", c.Conf.Log.Debug).Msg("Logger")
-		c.Log.Debug().Str("Host", c.Conf.Database.Host).Str("Username", c.Conf.Database.Username).Str("Password", c.Conf.Database.Password).Str("Driver", c.Conf.Database.Driver).Str("Port", c.Conf.Database.Port).Str("Name", c.Conf.Database.Name).Msg("Database")
-		c.Log.Info().Msg("Setup log")
 	}
-
+	log.Info().Msg("Setup conf")
+	log.Debug().Str("Host", c.Conf.Server.Host).Int("Port", c.Conf.Server.Port).Msg("Server")
+	log.Debug().Str("File", c.Conf.Log.File).Bool("Debug", c.Conf.Log.Debug).Msg("Logger")
+	log.Debug().Str("Host", c.Conf.Database.Host).Str("Username", c.Conf.Database.Username).Str("Password", c.Conf.Database.Password).Str("Driver", c.Conf.Database.Driver).Str("Port", c.Conf.Database.Port).Str("Name", c.Conf.Database.Name).Msg("Database")
+	log.Info().Msg("Setup log")
+	return log
 }

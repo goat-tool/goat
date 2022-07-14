@@ -10,7 +10,7 @@ import (
 	"gorm.io/gorm/logger"
 )
 
-func (c *Core) NewDatabase() {
+func (c *Core) NewDatabase() *gorm.DB {
 	c.Log.Info().Msg("Setup database")
 
 	// convert string to integer
@@ -28,7 +28,7 @@ func (c *Core) NewDatabase() {
 	}
 
 	//db.AutoMigrate(&test.Test{})
-	c.Database = db
+	return db
 
 	// c.registerShutdownFunc(func() error {
 	// 	err = client.Disconnect(ctx)

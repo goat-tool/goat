@@ -7,7 +7,7 @@ import (
 	"goat/services/user"
 )
 
-func (c *Core) newServices() {
+func (c *Core) newServices() *services.Services {
 
 	c.Log.Info().Msg("Setup services")
 
@@ -15,7 +15,7 @@ func (c *Core) newServices() {
 	userService := user.NewService(c.Log, c.Conf, c.Database)
 	testService := test.NewService(c.Log, c.Conf, c.Database)
 
-	c.services = &services.Services{
+	return &services.Services{
 		Health: healthService,
 		User:   userService,
 		Test:   testService,
