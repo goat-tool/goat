@@ -4,8 +4,6 @@ import (
 	"encoding/json"
 	"net/http"
 
-	// "goat/log"
-
 	// ut "github.com/go-playground/universal-translator"
 	// "github.com/go-playground/validator/v10"
 	"github.com/gorilla/mux"
@@ -28,7 +26,6 @@ type Body struct {
 
 func (a *Api) Setup(router *mux.Router) {
 	v1 := router.PathPrefix("/v1").Subrouter()
-
 	// Health
 	v1.HandleFunc("/health", a.Health.GetHealth).Methods(http.MethodGet)
 
@@ -51,7 +48,7 @@ func (a *Api) Setup(router *mux.Router) {
 func respond(w http.ResponseWriter, status int, message string, data interface{}) {
 	body := Body{}
 	body.Status = status
-
+	w.WriteHeader(status)
 	if message != "" {
 		body.Message = message
 	}
@@ -67,7 +64,15 @@ func respond(w http.ResponseWriter, status int, message string, data interface{}
 		return
 	}
 
-	w.WriteHeader(status)
+	// TODO: properly log response
+
+	// fmt.Println(status)
+	// fmt.Println(message)
+	// fmt.Println(data)
+
+	// fmt.Println("RESPONSE BODY")
+	// fmt.Println(string(bodyString))
+
 	_, err = w.Write(bodyString)
 	if err != nil {
 		// logger.Errorf("fail to write response body: %v", err)

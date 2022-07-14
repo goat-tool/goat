@@ -12,8 +12,6 @@ import (
 
 func (c *Core) NewDatabase() {
 	c.Log.Info().Msg("Setup database")
-	// gorm *******************************************************************************
-	//dbURL := "postgres://pg:pass@localhost:5432/crud"
 
 	// convert string to integer
 	portInt, err := strconv.Atoi(c.Conf.Database.Port)

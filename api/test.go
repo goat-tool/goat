@@ -40,7 +40,7 @@ func NewTestEndpoint(service *test.Service) *TestEndpoint {
 // }
 
 func (e *TestEndpoint) Create(w http.ResponseWriter, r *http.Request) {
-	e.service.Log.Warn().Msg("TODO: CreateTest() in api/test.go")
+	//e.service.Log.Warn().Msg("TODO: CreateTest() in api/test.go")
 	var input test.TestInput
 
 	err := json.NewDecoder(r.Body).Decode(&input)
@@ -48,7 +48,7 @@ func (e *TestEndpoint) Create(w http.ResponseWriter, r *http.Request) {
 		respond(w, http.StatusBadRequest, "invalid body", nil)
 		return
 	}
-
+	//fmt.Println("input", input)
 	// err = e.validate.Struct(input)
 	// if err != nil {
 	// 	errs := getValidationError(err.(validator.ValidationErrors), trans)

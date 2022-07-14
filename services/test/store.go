@@ -95,9 +95,12 @@ func (s *Store) Delete(id string) error {
 
 	result := s.db.Delete(&test, id)
 	if result.Error != nil {
+		s.log.Error().Err(ErrDeleteFailed).Str("id", id).Msg("")
 		return ErrDeleteFailed
 	} else if result.RowsAffected < 1 {
+		s.log.Error().Err(ErrNotFound).Str("id", id).Msg("")
 		return ErrNotFound
+
 	}
 
 	return nil

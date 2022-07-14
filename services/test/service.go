@@ -23,7 +23,7 @@ func NewService(log *log.Logger, conf *conf.Config, db *gorm.DB) *Service {
 
 func (s *Service) Create(input TestInput) (*Test, error) {
 	var t Test
-	s.Log.Warn().Msg("Todo: Create() in services/test/service.go")
+	// s.Log.Warn().Msg("Todo: Create() in services/test/service.go")
 
 	//TODO validation
 	t.TestName = input.TestName

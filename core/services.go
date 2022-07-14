@@ -13,7 +13,6 @@ func (c *Core) newServices() {
 
 	healthService := health.NewService(&c.state)
 	userService := user.NewService()
-	//TODO put config and db into NewService
 	testService := test.NewService(c.Log, c.Conf, c.Database)
 
 	c.services = &services.Services{
