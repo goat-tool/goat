@@ -16,7 +16,7 @@ func (c *Core) NewDatabase() *gorm.DB {
 	// convert string to integer
 	portInt, err := strconv.Atoi(c.Conf.Database.Port)
 	if err != nil {
-		fmt.Println("String to int error:", err)
+		c.Log.Error().Err(err).Msg("String to int error")
 	}
 	dbURL := fmt.Sprintf("host=%s port=%d user=%s password=%s dbname=%s sslmode=disable", c.Conf.Database.Host, portInt, c.Conf.Database.Username, c.Conf.Database.Password, c.Conf.Database.Name)
 
