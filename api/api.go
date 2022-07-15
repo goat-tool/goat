@@ -2,11 +2,11 @@ package api
 
 import (
 	"encoding/json"
-	"goat/log"
 	"net/http"
 
 	// ut "github.com/go-playground/universal-translator"
 	// "github.com/go-playground/validator/v10"
+	"git.bitcubix.io/go/log"
 	"github.com/gorilla/mux"
 )
 

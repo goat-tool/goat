@@ -1,10 +1,8 @@
 package core
 
 import (
-	"goat/conf"
-	"goat/log"
-
 	"goat/api"
+	"goat/conf"
 	"goat/services"
 	"goat/services/health"
 
@@ -13,6 +11,7 @@ import (
 	"sync"
 	"time"
 
+	"git.bitcubix.io/go/log"
 	"github.com/gorilla/mux"
 	"gorm.io/gorm"
 )

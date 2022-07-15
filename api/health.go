@@ -3,8 +3,9 @@ package api
 import (
 	"goat/services/health"
 
-	"goat/log"
 	"net/http"
+
+	"git.bitcubix.io/go/log"
 )
 
 type HealthEndpoint struct {

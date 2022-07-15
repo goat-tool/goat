@@ -7,9 +7,9 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"goat/log"
 	"goat/services/test"
 
+	"git.bitcubix.io/go/log"
 	"github.com/gorilla/mux"
 	// "github.com/go-playground/validator/v10"
 	// "github.com/gorilla/mux"

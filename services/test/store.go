@@ -2,11 +2,11 @@ package test
 
 import (
 	"goat/conf"
-	"goat/log"
 
 	"context"
 	"time"
 
+	"git.bitcubix.io/go/log"
 	"gorm.io/gorm"
 )
 
