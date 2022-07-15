@@ -4,6 +4,9 @@ import (
 	"goat/conf"
 	"goat/log"
 
+	"context"
+	"time"
+
 	"gorm.io/gorm"
 )
 
@@ -24,10 +27,10 @@ func NewStore(log *log.Logger, conf *conf.Config, db *gorm.DB) *Store {
 }
 
 func (s *Store) Create(user *User) (*User, error) {
-	// 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
-	// 	defer cancel()
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
 
-	inserted := s.db.Create(user)
+	inserted := s.db.WithContext(ctx).Create(user)
 	if inserted.Error != nil {
 
 		return nil, ErrInsertFailed
@@ -37,11 +40,11 @@ func (s *Store) Create(user *User) (*User, error) {
 }
 
 func (s *Store) GetAll() ([]*User, error) {
-	// 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
-	// 	defer cancel()
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
 	var users []*User
 
-	result := s.db.Find(&users)
+	result := s.db.WithContext(ctx).Find(&users)
 	if result.Error != nil {
 		return nil, ErrFindFailed
 	}
@@ -50,9 +53,11 @@ func (s *Store) GetAll() ([]*User, error) {
 }
 
 func (s *Store) GetByID(id string) (*User, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
 	var user *User
 
-	result := s.db.First(&user, id)
+	result := s.db.WithContext(ctx).First(&user, id)
 	if result.Error != nil {
 		return nil, ErrNotFound
 	}
@@ -70,10 +75,10 @@ func (s *Store) GetByID(id string) (*User, error) {
 
 func (s *Store) Update(id string, user *User) (*User, error) {
 
-	// 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
-	// 	defer cancel()
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
 
-	result := s.db.Save(&user)
+	result := s.db.WithContext(ctx).Save(&user)
 	if result.Error != nil {
 		return nil, ErrUpdatedFailed
 	}
@@ -82,11 +87,11 @@ func (s *Store) Update(id string, user *User) (*User, error) {
 }
 
 func (s *Store) Delete(id string) error {
-	// ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
-	// defer cancel()
+	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
+	defer cancel()
 	var user *User
 
-	result := s.db.Delete(&user, id)
+	result := s.db.WithContext(ctx).Delete(&user, id)
 	if result.Error != nil {
 		return ErrDeleteFailed
 	} else if result.RowsAffected < 1 {

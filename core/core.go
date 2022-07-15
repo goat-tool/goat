@@ -113,7 +113,7 @@ func (c *Core) Shutdown(ctx context.Context) error {
 	}
 
 	c.state = health.StateStopping
-	c.Log.Debug().Msg("Server stopping gracefully")
+	c.Log.Debug().Msg("Server stopping gracefully..")
 	defer func() {
 		c.state = health.StateStopped
 	}()
@@ -142,7 +142,7 @@ func (c *Core) Shutdown(ctx context.Context) error {
 	return nil
 }
 
-// // registerShutdownFunc is used to register a new shutdown function
-// func (c *Core) registerShutdownFunc(fn func() error) {
-// 	c.shutdownFuncs = append(c.shutdownFuncs, fn)
-// }
+// registerShutdownFunc is used to register a new shutdown function
+func (c *Core) registerShutdownFunc(fn func() error) {
+	c.shutdownFuncs = append(c.shutdownFuncs, fn)
+}

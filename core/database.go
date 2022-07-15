@@ -28,16 +28,22 @@ func (c *Core) NewDatabase() *gorm.DB {
 	}
 
 	//db.AutoMigrate(&test.Test{})
+
+	c.registerShutdownFunc(func() error {
+		c.Log.Debug().Msg("Closing database connection")
+		// Close DB Connection
+		sqlDB, err := db.DB()
+		sqlDB.Close()
+
+		if err != nil {
+			//logger.Errorf("failed to disconnect from database: %v", err)
+			return err
+		}
+
+		c.Log.Debug().Msg("Database connection closed")
+		return nil
+	})
+
 	return db
 
-	// c.registerShutdownFunc(func() error {
-	// 	err = client.Disconnect(ctx)
-	// 	if err != nil {
-	// 		logger.Errorf("failed to disconnect from database: %v", err)
-	// 		return err
-	// 	}
-
-	// 	logger.Debugln("database connection closed")
-	// 	return nil
-	// })
 }

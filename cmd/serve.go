@@ -48,6 +48,6 @@ func graceful(core *core.Core, timeout time.Duration) {
 	if err := core.Shutdown(ctx); err != nil {
 		core.Log.Error().Err(err).Msg("server shutdown error")
 	} else {
-		core.Log.Info().Msg("Server stopped")
+		core.Log.Info().Msg("Server stopped gracefully")
 	}
 }
