@@ -61,7 +61,7 @@ func (e *UserEndpoint) Create(w http.ResponseWriter, r *http.Request) {
 		respond(w, e.log, http.StatusBadRequest, "invalid body", nil)
 	}
 
-	respond(w, e.log, http.StatusCreated, "test created successfully", createdUser)
+	respond(w, e.log, http.StatusCreated, "user created successfully", createdUser)
 }
 
 func (e *UserEndpoint) GetAll(w http.ResponseWriter, _ *http.Request) {

@@ -14,7 +14,6 @@ import (
 	"time"
 
 	"github.com/gorilla/mux"
-	// "github.com/jackc/pgx/v4/pgxpool"
 	"gorm.io/gorm"
 )
 
@@ -46,14 +45,12 @@ func New(cfgFile string, isDebug bool, logFile string) (*Core, error) {
 	c := &Core{}
 
 	c.state = health.StateStarting
-
 	ctx, cancel := context.WithCancel(context.Background())
 	c.wg = &sync.WaitGroup{}
 	c.context = globalContext{
 		cancel: cancel,
 		ctx:    ctx,
 	}
-
 	c.Conf = c.newConf(cfgFile)
 	c.Log = c.newLog(isDebug, logFile)
 	// c.translator = c.newTranslator()
@@ -64,9 +61,9 @@ func New(cfgFile string, isDebug bool, logFile string) (*Core, error) {
 	//c.router = c.newRouter()
 	c.newRouter()
 	c.api = c.newApi()
+	c.state = health.StateRunning
 
 	c.Log.Info().Msg("New core done")
-	c.state = health.StateRunning
 	return c, nil
 }
 

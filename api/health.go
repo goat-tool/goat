@@ -33,6 +33,6 @@ func (e *HealthEndpoint) GetHealth(w http.ResponseWriter, _ *http.Request) {
 	default:
 		status = http.StatusInternalServerError
 	}
-	// 	respond(w, e.logger, status, "", healthResponse)
+
 	respond(w, e.log, status, "", healthResponse)
 }

@@ -119,8 +119,6 @@ func (e *TestEndpoint) Update(w http.ResponseWriter, r *http.Request) {
 			respond(w, e.log, http.StatusBadRequest, err.Error(), nil)
 		case test.ErrNotFound:
 			respond(w, e.log, http.StatusNotFound, err.Error(), nil)
-		// case test.ErrPasswordChangeNotAllowed:
-		// 	respond(w, http.StatusBadRequest, err.Error(), nil)
 		default:
 			respond(w, e.log, http.StatusInternalServerError, err.Error(), nil)
 		}

@@ -1,7 +1,6 @@
 package user
 
 import (
-	"fmt"
 	"goat/conf"
 	"goat/log"
 	"time"
@@ -42,11 +41,7 @@ func (s *Service) Create(input UserInput) (*User, error) {
 	}
 
 	if input.Hash != "" {
-
 		u.Hash = input.Hash
-
-		fmt.Println("hash: ", input.Hash)
-
 	}
 
 	timeNow := time.Now().Unix()
