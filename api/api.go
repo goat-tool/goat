@@ -11,6 +11,7 @@ import (
 )
 
 type Api struct {
+	Root   *RootEndpoint
 	Health *HealthEndpoint
 	User   *UserEndpoint
 	Test   *TestEndpoint
@@ -26,7 +27,11 @@ type Body struct {
 // type ValidationErrors []ValidationError
 
 func (a *Api) New(router *mux.Router) {
-	v1 := router.PathPrefix("/v1").Subrouter()
+	v1 := router.PathPrefix("/v1").Subrouter().StrictSlash(true)
+
+	// Root
+	v1.HandleFunc("/", a.Root.GetRoot).Methods(http.MethodGet)
+
 	// Health
 	v1.HandleFunc("/health", a.Health.GetHealth).Methods(http.MethodGet)
 

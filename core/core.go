@@ -107,8 +107,15 @@ func (c *Core) StartServer() {
 
 func (c *Core) Shutdown(ctx context.Context) error {
 
+	if c.state != health.StateRunning {
+		c.Log.Warn().Msg("server cannot be shutdown since current state is not 'running'")
+		return nil
+	}
+
+	c.state = health.StateStopping
+	c.Log.Debug().Msg("Server stopping gracefully")
 	defer func() {
-		//fmt.Println("defer...........................")
+		c.state = health.StateStopped
 	}()
 
 	c.context.cancel()

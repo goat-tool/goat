@@ -2,7 +2,6 @@ package core
 
 import (
 	"encoding/json"
-	"fmt"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -16,7 +15,7 @@ func (c *Core) newRouter() {
 	middlewares := setupMiddleware(c.router, c)
 
 	// register middlewares
-	middlewares = jsonMiddleware(middlewares)
+	middlewares = jsonMiddleware(middlewares, c)
 	middlewares = loggingMiddleware(middlewares, c)
 
 	c.handler = middlewares
@@ -28,14 +27,18 @@ func setupMiddleware(h http.Handler, c *Core) http.Handler {
 }
 
 // Json middleware to set content-type header for json
-func jsonMiddleware(h http.Handler) http.Handler {
+func jsonMiddleware(h http.Handler, c *Core) http.Handler {
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		switch r.Header.Get("Content-Type") {
-		case "application/json":
-			//fmt.Println("json header is set")
-		default:
-			fmt.Println("Todo: respond error json header not set")
-		}
+
+		// if r.Method == "POST" || r.Method == "PUT" {
+		// 	switch r.Header.Get("Content-Type") {
+		// 	case "application/json":
+		// 		//fmt.Println("json header is set")
+		// 	default:
+		// 		c.Log.Error().Msg("Todo: respond error json header not set")
+		// 	}
+		// }
+
 		w.Header().Set("Content-Type", "application/json")
 		h.ServeHTTP(w, r)
 	})
