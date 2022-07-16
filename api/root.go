@@ -3,8 +3,9 @@ package api
 import (
 	"goat/services/root"
 
-	"goat/log"
 	"net/http"
+
+	"git.bitcubix.io/go/log"
 )
 
 type RootEndpoint struct {

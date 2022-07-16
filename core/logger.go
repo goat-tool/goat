@@ -1,9 +1,9 @@
 package core
 
 import (
-	"goat/log"
-
 	"os"
+
+	"git.bitcubix.io/go/log"
 )
 
 func (c *Core) newLog(isDebug bool, logFile string) *log.Logger {

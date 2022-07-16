@@ -12,6 +12,7 @@ require (
 )
 
 require (
+	git.bitcubix.io/go/log v0.0.0-20220715204532-870bed4c316d // indirect
 	github.com/fsnotify/fsnotify v1.5.4 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
 	github.com/inconshreveable/mousetrap v1.0.0 // indirect
