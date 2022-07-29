@@ -1,7 +1,6 @@
 package core
 
 import (
-	//"github.com/tutorials/go/crud/pkg/models"
 	"fmt"
 	"strconv"
 

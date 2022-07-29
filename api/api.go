@@ -27,10 +27,11 @@ type Body struct {
 // type ValidationErrors []ValidationError
 
 func (a *Api) New(router *mux.Router) {
-	v1 := router.PathPrefix("/v1").Subrouter().StrictSlash(true)
+	v1 := router.PathPrefix("/v1").Subrouter().StrictSlash(false)
 
 	// Root
-	v1.HandleFunc("/", a.Root.GetRoot).Methods(http.MethodGet)
+	v1.HandleFunc("", a.Root.GetRoot).Methods(http.MethodGet)
+	// v1.HandleFunc("", a.Root.GetRoot).Methods(http.MethodGet)
 
 	// Health
 	v1.HandleFunc("/health", a.Health.GetHealth).Methods(http.MethodGet)
