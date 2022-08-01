@@ -81,7 +81,7 @@ func (e *UserEndpoint) GetAll(w http.ResponseWriter, _ *http.Request) {
 func (e *UserEndpoint) GetById(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 
-	foundUser, err := e.service.Store.GetByID(id)
+	foundUser, err := e.service.GetByID(id)
 	if err != nil {
 		switch err {
 		case user.ErrIdParseFailed:

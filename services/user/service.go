@@ -56,6 +56,12 @@ func (s *Service) Create(input UserInput) (*User, error) {
 	return createdUser, nil
 }
 
+func (s *Service) GetByID(id string) (*User, error) {
+
+	return s.Store.GetByID(id)
+
+}
+
 func (s *Service) GetAll() ([]*User, error) {
 
 	return s.Store.GetAll()

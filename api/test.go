@@ -80,7 +80,7 @@ func (e *TestEndpoint) GetAll(w http.ResponseWriter, _ *http.Request) {
 func (e *TestEndpoint) GetById(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 
-	foundTest, err := e.service.Store.GetByID(id)
+	foundTest, err := e.service.GetByID(id)
 	if err != nil {
 		switch err {
 		case test.ErrIdParseFailed:

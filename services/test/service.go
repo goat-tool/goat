@@ -44,6 +44,12 @@ func (s *Service) Create(input TestInput) (*Test, error) {
 	return createdTest, nil
 }
 
+func (s *Service) GetByID(id string) (*Test, error) {
+
+	return s.Store.GetByID(id)
+
+}
+
 func (s *Service) GetAll() ([]*Test, error) {
 
 	return s.Store.GetAll()
