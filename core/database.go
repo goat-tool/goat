@@ -26,7 +26,7 @@ func (c *Core) NewDatabase() *gorm.DB {
 		c.Log.Info().Msg("DB OK")
 	}
 
-	//db.AutoMigrate(&test.Test{})
+	//db.AutoMigrate(&example.Example{})
 
 	c.registerShutdownFunc(func() error {
 		c.Log.Debug().Msg("Closing database connection")

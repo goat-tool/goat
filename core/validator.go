@@ -18,8 +18,9 @@ func (c *Core) newValidator() *validation.Validator {
 	// }
 
 	// Todo: Setup Validator --> check stuff in git.bitcubix.io/go/validation
-	// Todo: use validator in Test and user service
+	// Todo: use validator in example and user service
 
 	c.Log.Info().Msg("Setup validator")
+	c.Log.Warn().Msg("TODO: Setup validator")
 	return validator
 }

@@ -30,9 +30,9 @@ func NewUserEndpoint(log *log.Logger, service *user.Service) *UserEndpoint {
 	}
 }
 
-// func NewTestEndpoint(logger log.Logger, translator *ut.UniversalTranslator, validate *validator.Validate, service *test.Service) *TestEndpoint {
-// 	return &TestEndpoint{
-// 		logger:     logger.WithPrefix("api.test"),
+// func NewUserEndpoint(logger log.Logger, translator *ut.UniversalTranslator, validate *validator.Validate, service *user.Service) *UserEndpoint {
+// 	return &UserEndpoint{
+// 		logger:     logger.WithPrefix("api.user"),
 // 		translator: translator,
 // 		validate:   validate,
 // 		service:    service,

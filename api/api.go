@@ -11,10 +11,10 @@ import (
 )
 
 type Api struct {
-	Root   *RootEndpoint
-	Health *HealthEndpoint
-	User   *UserEndpoint
-	Test   *TestEndpoint
+	Root    *RootEndpoint
+	Health  *HealthEndpoint
+	User    *UserEndpoint
+	Example *ExampleEndpoint
 }
 
 type Body struct {
@@ -36,12 +36,12 @@ func (a *Api) New(router *mux.Router) {
 	// Health
 	v1.HandleFunc("/health", a.Health.GetHealth).Methods(http.MethodGet)
 
-	// Test
-	v1.HandleFunc("/tests", a.Test.Create).Methods(http.MethodPost)
-	v1.HandleFunc("/tests", a.Test.GetAll).Methods(http.MethodGet)
-	v1.HandleFunc("/tests/{id}", a.Test.GetById).Methods(http.MethodGet)
-	v1.HandleFunc("/tests/{id}", a.Test.Update).Methods(http.MethodPut)
-	v1.HandleFunc("/tests/{id}", a.Test.Delete).Methods(http.MethodDelete)
+	// Example
+	v1.HandleFunc("/examples", a.Example.Create).Methods(http.MethodPost)
+	v1.HandleFunc("/examples", a.Example.GetAll).Methods(http.MethodGet)
+	v1.HandleFunc("/examples/{id}", a.Example.GetById).Methods(http.MethodGet)
+	v1.HandleFunc("/examples/{id}", a.Example.Update).Methods(http.MethodPut)
+	v1.HandleFunc("/examples/{id}", a.Example.Delete).Methods(http.MethodDelete)
 
 	// User
 	v1.HandleFunc("/users", a.User.Create).Methods(http.MethodPost)

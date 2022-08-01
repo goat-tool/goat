@@ -1,4 +1,4 @@
-package test
+package example
 
 import (
 	"goat/conf"
@@ -26,62 +26,62 @@ func NewStore(log *log.Logger, conf *conf.Config, db *gorm.DB) *Store {
 	}
 }
 
-func (s *Store) Create(test *Test) (*Test, error) {
+func (s *Store) Create(example *Example) (*Example, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
 
-	inserted := s.db.WithContext(ctx).Create(test)
+	inserted := s.db.WithContext(ctx).Create(example)
 	if inserted.Error != nil {
 		return nil, ErrInsertFailed
 	}
 
-	return test, nil
+	return example, nil
 }
 
-func (s *Store) GetAll() ([]*Test, error) {
+func (s *Store) GetAll() ([]*Example, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
-	var tests []*Test
+	var examples []*Example
 
-	result := s.db.WithContext(ctx).Find(&tests)
+	result := s.db.WithContext(ctx).Find(&examples)
 	if result.Error != nil {
 		return nil, ErrFindFailed
 	}
 
-	return tests, nil
+	return examples, nil
 }
 
-func (s *Store) GetByID(id string) (*Test, error) {
+func (s *Store) GetByID(id string) (*Example, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
-	var test *Test
+	var example *Example
 
-	result := s.db.WithContext(ctx).First(&test, id)
+	result := s.db.WithContext(ctx).First(&example, id)
 	if result.Error != nil {
 		return nil, ErrNotFound
 	}
 
-	return test, nil
+	return example, nil
 }
 
-func (s *Store) Update(id string, test *Test) (*Test, error) {
+func (s *Store) Update(id string, example *Example) (*Example, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
 
-	result := s.db.WithContext(ctx).Save(&test)
+	result := s.db.WithContext(ctx).Save(&example)
 	if result.Error != nil {
 		return nil, ErrUpdatedFailed
 	}
 
-	return test, nil
+	return example, nil
 }
 
 func (s *Store) Delete(id string) error {
 	ctx, cancel := context.WithTimeout(context.Background(), 100*time.Second)
 	defer cancel()
-	var test *Test
+	var example *Example
 
-	result := s.db.WithContext(ctx).Delete(&test, id)
+	result := s.db.WithContext(ctx).Delete(&example, id)
 	if result.Error != nil {
 		return ErrDeleteFailed
 	} else if result.RowsAffected < 1 {

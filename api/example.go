@@ -7,7 +7,7 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"goat/services/test"
+	"goat/services/example"
 
 	"git.bitcubix.io/go/log"
 	"github.com/gorilla/mux"
@@ -15,31 +15,31 @@ import (
 	// "github.com/gorilla/mux"
 )
 
-type TestEndpoint struct {
+type ExampleEndpoint struct {
 	log *log.Logger
 	// translator *ut.UniversalTranslator
 	// validate   *validator.Validate
-	service *test.Service
+	service *example.Service
 }
 
-func NewTestEndpoint(log *log.Logger, service *test.Service) *TestEndpoint {
-	return &TestEndpoint{
+func NewExampleEndpoint(log *log.Logger, service *example.Service) *ExampleEndpoint {
+	return &ExampleEndpoint{
 		service: service,
 		log:     log,
 	}
 }
 
-// func NewTestEndpoint(logger log.Logger, translator *ut.UniversalTranslator, validate *validator.Validate, service *test.Service) *TestEndpoint {
-// 	return &TestEndpoint{
-// 		logger:     logger.WithPrefix("api.test"),
+// func NewExampleEndpoint(logger log.Logger, translator *ut.UniversalTranslator, validate *validator.Validate, service *example.Service) *ExampleEndpoint {
+// 	return &ExampleEndpoint{
+// 		logger:     logger.WithPrefix("api.example"),
 // 		translator: translator,
 // 		validate:   validate,
 // 		service:    service,
 // 	}
 // }
 
-func (e *TestEndpoint) Create(w http.ResponseWriter, r *http.Request) {
-	var input test.TestInput
+func (e *ExampleEndpoint) Create(w http.ResponseWriter, r *http.Request) {
+	var input example.ExampleInput
 
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
@@ -54,19 +54,19 @@ func (e *TestEndpoint) Create(w http.ResponseWriter, r *http.Request) {
 	// 	return
 	// }
 
-	createdTest, err := e.service.Create(input)
+	createdExample, err := e.service.Create(input)
 	if err != nil {
 		respond(w, e.log, http.StatusBadRequest, "invalid body", nil)
 	}
 
-	respond(w, e.log, http.StatusCreated, "test created successfully", createdTest)
+	respond(w, e.log, http.StatusCreated, "example created successfully", createdExample)
 }
 
-func (e *TestEndpoint) GetAll(w http.ResponseWriter, _ *http.Request) {
-	tests, err := e.service.GetAll()
+func (e *ExampleEndpoint) GetAll(w http.ResponseWriter, _ *http.Request) {
+	examples, err := e.service.GetAll()
 	if err != nil {
 		switch err {
-		case test.ErrNotFound:
+		case example.ErrNotFound:
 			respond(w, e.log, http.StatusNotFound, err.Error(), nil)
 		default:
 			respond(w, e.log, http.StatusInternalServerError, err.Error(), nil)
@@ -74,18 +74,18 @@ func (e *TestEndpoint) GetAll(w http.ResponseWriter, _ *http.Request) {
 		return
 	}
 
-	respond(w, e.log, http.StatusOK, "load all tests successfully", tests)
+	respond(w, e.log, http.StatusOK, "load all examples successfully", examples)
 }
 
-func (e *TestEndpoint) GetById(w http.ResponseWriter, r *http.Request) {
+func (e *ExampleEndpoint) GetById(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 
-	foundTest, err := e.service.GetByID(id)
+	foundExample, err := e.service.GetByID(id)
 	if err != nil {
 		switch err {
-		case test.ErrIdParseFailed:
+		case example.ErrIdParseFailed:
 			respond(w, e.log, http.StatusBadRequest, err.Error(), nil)
-		case test.ErrNotFound:
+		case example.ErrNotFound:
 			respond(w, e.log, http.StatusNotFound, err.Error(), nil)
 		default:
 			respond(w, e.log, http.StatusInternalServerError, err.Error(), nil)
@@ -93,12 +93,12 @@ func (e *TestEndpoint) GetById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	respond(w, e.log, http.StatusOK, "successfully found test", foundTest)
+	respond(w, e.log, http.StatusOK, "successfully found example", foundExample)
 }
 
-func (e *TestEndpoint) Update(w http.ResponseWriter, r *http.Request) {
+func (e *ExampleEndpoint) Update(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
-	var input *test.TestInput
+	var input *example.ExampleInput
 	err := json.NewDecoder(r.Body).Decode(&input)
 	if err != nil {
 		respond(w, e.log, http.StatusBadRequest, "invalid body", nil)
@@ -112,12 +112,12 @@ func (e *TestEndpoint) Update(w http.ResponseWriter, r *http.Request) {
 	// 	return
 	// }
 
-	createdTest, err := e.service.Update(id, input)
+	createdExample, err := e.service.Update(id, input)
 	if err != nil {
 		switch err {
-		case test.ErrIdParseFailed:
+		case example.ErrIdParseFailed:
 			respond(w, e.log, http.StatusBadRequest, err.Error(), nil)
-		case test.ErrNotFound:
+		case example.ErrNotFound:
 			respond(w, e.log, http.StatusNotFound, err.Error(), nil)
 		default:
 			respond(w, e.log, http.StatusInternalServerError, err.Error(), nil)
@@ -125,18 +125,18 @@ func (e *TestEndpoint) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	respond(w, e.log, http.StatusCreated, "test updated successfully", createdTest)
+	respond(w, e.log, http.StatusCreated, "example updated successfully", createdExample)
 }
 
-func (e *TestEndpoint) Delete(w http.ResponseWriter, r *http.Request) {
+func (e *ExampleEndpoint) Delete(w http.ResponseWriter, r *http.Request) {
 	id := mux.Vars(r)["id"]
 
 	err := e.service.Delete(id)
 	if err != nil {
 		switch err {
-		case test.ErrIdParseFailed:
+		case example.ErrIdParseFailed:
 			respond(w, e.log, http.StatusBadRequest, err.Error(), nil)
-		case test.ErrNotFound:
+		case example.ErrNotFound:
 			respond(w, e.log, http.StatusNotFound, err.Error(), nil)
 		default:
 			respond(w, e.log, http.StatusInternalServerError, err.Error(), nil)
