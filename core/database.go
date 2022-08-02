@@ -7,6 +7,9 @@ import (
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"gorm.io/gorm/logger"
+
+	"goat/services/example"
+	"goat/services/user"
 )
 
 func (c *Core) NewDatabase() *gorm.DB {
@@ -26,7 +29,11 @@ func (c *Core) NewDatabase() *gorm.DB {
 		c.Log.Info().Msg("DB OK")
 	}
 
-	//db.AutoMigrate(&example.Example{})
+	// micgrate cli command is not needed with automigrate here
+	db.AutoMigrate(
+		example.Example{},
+		user.User{},
+	)
 
 	c.registerShutdownFunc(func() error {
 		c.Log.Debug().Msg("Closing database connection")
