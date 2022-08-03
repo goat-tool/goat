@@ -2,7 +2,10 @@
 
 goat is a go api template :wink:
 
-It's a container with the api and a container with a postgresql database
+It's a container with the api and a container with a postgresql database.
+
+
+<img src="https://git.bitcubix.io/goat/assets/raw/branch/master/goat4.png" width="100%" height="100%">
 
 ## run with docker
 
